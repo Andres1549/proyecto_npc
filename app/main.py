@@ -1,9 +1,7 @@
 from fastapi import FastAPI
 from app.db import init_db
-from app.routers import npcs, items, vendedores, misiones, ubicaciones, reportes, busqueda
-
+from app.routers import npcs, items, vendedores, misiones, ubicaciones, busqueda, reportes
 app = FastAPI(title="Proyecto NPC")
-
 @app.on_event("startup")
 def on_startup():
     init_db()
