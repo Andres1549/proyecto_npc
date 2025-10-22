@@ -4,7 +4,7 @@ from app.db import get_session
 from app.models import NPC, Item, Mision, Ubicacion
 import unicodedata
 
-router = APIRouter(prefix="/global", tags=["Búsqueda"])
+router = APIRouter(tags=["Búsqueda Global"])
 
 def normalizar(texto: str) -> str:
     if not texto:
