@@ -4,7 +4,7 @@ from typing import List
 from app.db import get_session
 from app.models import Ubicacion
 
-router = APIRouter(prefix="/ubicaciones", tags=["Ubicaciones"])
+router = APIRouter(tags=["Ubicaciones"])
 
 
 @router.get("/", response_model=List[Ubicacion])

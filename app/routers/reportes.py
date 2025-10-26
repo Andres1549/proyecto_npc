@@ -4,7 +4,7 @@ from app.db import get_session
 from app.models import NPC, Item
 import csv, io
 
-router = APIRouter(prefix="/reportes", tags=["Reportes"])
+router = APIRouter(tags=["Reportes"])
 
 @router.get("/vendedores_items.csv")
 def reporte_vendedores_items(session: Session = Depends(get_session)):

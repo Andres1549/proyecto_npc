@@ -4,7 +4,7 @@ from typing import List, Optional
 from app.db import get_session
 from app.models import NPC, TipoNPC
 
-router = APIRouter(prefix="/npcs", tags=["NPCs"])
+router = APIRouter(tags=["NPCs"])
 
 
 @router.get("/", response_model=List[NPC])
