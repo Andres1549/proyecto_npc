@@ -30,6 +30,7 @@ class Ubicacion(SQLModel, table=True):
     nombre: str
     descripcion: str
     activo: bool = Field(default=True)
+    imagen_url: Optional[str] = None
 
     npcs: List["NPC"] = Relationship(back_populates="ubicacion")
 
@@ -41,6 +42,7 @@ class NPC(SQLModel, table=True):
     tipo: TipoNPC
     id_ubicacion: int = Field(foreign_key="ubicacion.id")
     activo: bool = Field(default=True)
+    imagen_url: Optional[str] = None
 
     ubicacion: Optional[Ubicacion] = Relationship(back_populates="npcs")
     misiones: List["Mision"] = Relationship(back_populates="npc")
@@ -55,6 +57,7 @@ class Item(SQLModel, table=True):
     usa_metal_artesano: bool
     tipo: TipoItem
     activo: bool = Field(default=True)
+    imagen_url: Optional[str] = None
 
     npcs: List[NPC] = Relationship(back_populates="items", link_model=NPCItemLink)
 
