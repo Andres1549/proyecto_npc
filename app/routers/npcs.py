@@ -29,7 +29,7 @@ async def crear_npc(
 ):
     imagen_url = None
     if imagen:
-        imagen_url = await upload_file_bucket(imagen)
+        imagen_url = await upload_file(imagen)
 
     npc = NPC(
         nombre=nombre,
@@ -60,7 +60,7 @@ async def reemplazar_npc(
         raise HTTPException(404, "NPC no encontrado")
 
     if imagen:
-        npc_db.imagen_url = await upload_file_bucket(imagen)
+        npc_db.imagen_url = await upload_file(imagen)
 
     npc_db.nombre = nombre
     npc_db.descripcion = descripcion
@@ -87,7 +87,7 @@ async def actualizar_npc(
         raise HTTPException(404, "NPC no encontrado")
 
     if imagen:
-        npc_db.imagen_url = await upload_file_bucket(imagen)
+        npc_db.imagen_url = await upload_file(imagen)
 
     if nombre is not None:
         npc_db.nombre = nombre
