@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File, Form
 from sqlmodel import Session, select
 from typing import List, Optional
 from app.db import get_session
 from app.models import NPC, TipoNPC
+from app.servicios.supabase_conexion import upload_file
 
 router = APIRouter(tags=["NPCs"])
 
@@ -13,20 +14,41 @@ def listar_npcs(
     skip: int = Query(0, ge=0),
     limit: int = Query(10, le=100)
 ):
-    npcs = session.exec(select(NPC).where(NPC.activo == True).offset(skip).limit(limit)).all()
-    return npcs
+    return session.exec(
+        select(NPC).where(NPC.activo == True).offset(skip).limit(limit)
+    ).all()
 
 
 @router.get("/{npc_id}", response_model=NPC)
 def obtener_npc(npc_id: int, session: Session = Depends(get_session)):
     npc = session.get(NPC, npc_id)
     if not npc or not npc.activo:
-        raise HTTPException(status_code=404, detail="NPC no encontrado o inactivo")
+        raise HTTPException(404, "NPC no encontrado o inactivo")
     return npc
 
 
 @router.post("/", response_model=NPC, status_code=201)
-def crear_npc(npc: NPC, session: Session = Depends(get_session)):
+def crear_npc(
+    nombre: str = Form(...),
+    descripcion: str = Form(...),
+    tipo: TipoNPC = Form(...),
+    id_ubicacion: int = Form(...),
+    file: UploadFile = File(None),
+    session: Session = Depends(get_session)
+):
+    imagen_url = None
+    if file:
+        filename = f"npcs/{nombre.replace(' ', '_')}_{file.filename}"
+        imagen_url = upload_file(file.file, filename)
+
+    npc = NPC(
+        nombre=nombre,
+        descripcion=descripcion,
+        tipo=tipo,
+        id_ubicacion=id_ubicacion,
+        imagen_url=imagen_url
+    )
+
     session.add(npc)
     session.commit()
     session.refresh(npc)
@@ -34,37 +56,72 @@ def crear_npc(npc: NPC, session: Session = Depends(get_session)):
 
 
 @router.put("/{npc_id}", response_model=NPC)
-def remplazar_npc(npc_id: int, datos_actualizados: NPC, session: Session = Depends(get_session)):
-    npc_db = session.get(NPC, npc_id)
-    if not npc_db or not npc_db.activo:
-        raise HTTPException(status_code=404, detail="NPC no encontrado o inactivo")
-    for key, value in datos_actualizados.dict(exclude_unset=True).items():
-        setattr(npc_db, key, value)
-    session.add(npc_db)
+def remplazar_npc(
+    npc_id: int,
+    nombre: str = Form(...),
+    descripcion: str = Form(...),
+    tipo: TipoNPC = Form(...),
+    id_ubicacion: int = Form(...),
+    file: UploadFile = File(None),
+    session: Session = Depends(get_session)
+):
+    npc = session.get(NPC, npc_id)
+    if not npc or not npc.activo:
+        raise HTTPException(404, "NPC no encontrado o inactivo")
+
+    npc.nombre = nombre
+    npc.descripcion = descripcion
+    npc.tipo = tipo
+    npc.id_ubicacion = id_ubicacion
+
+    if file:
+        filename = f"npcs/{npc_id}_{file.filename}"
+        npc.imagen_url = upload_file(file.file, filename)
+
     session.commit()
-    session.refresh(npc_db)
-    return npc_db
+    session.refresh(npc)
+    return npc
 
 
 @router.patch("/{npc_id}", response_model=NPC)
-def actualizar_npc(npc_id: int, datos_parciales: dict, session: Session = Depends(get_session)):
-    npc_db = session.get(NPC, npc_id)
-    if not npc_db or not npc_db.activo:
-        raise HTTPException(status_code=404, detail="NPC no encontrado o inactivo")
-    for key, value in datos_parciales.items():
-        setattr(npc_db, key, value)
-    session.add(npc_db)
+def actualizar_npc(
+    npc_id: int,
+    nombre: Optional[str] = Form(None),
+    descripcion: Optional[str] = Form(None),
+    tipo: Optional[TipoNPC] = Form(None),
+    id_ubicacion: Optional[int] = Form(None),
+    file: UploadFile = File(None),
+    session: Session = Depends(get_session)
+):
+    npc = session.get(NPC, npc_id)
+    if not npc or not npc.activo:
+        raise HTTPException(404, "NPC no encontrado o inactivo")
+
+    if nombre is not None:
+        npc.nombre = nombre
+    if descripcion is not None:
+        npc.descripcion = descripcion
+    if tipo is not None:
+        npc.tipo = tipo
+    if id_ubicacion is not None:
+        npc.id_ubicacion = id_ubicacion
+
+    if file:
+        filename = f"npcs/{npc_id}_{file.filename}"
+        npc.imagen_url = upload_file(file.file, filename)
+
     session.commit()
-    session.refresh(npc_db)
-    return npc_db
+    session.refresh(npc)
+    return npc
 
 
 @router.delete("/{npc_id}")
 def eliminar_npc(npc_id: int, session: Session = Depends(get_session)):
-    npc_db = session.get(NPC, npc_id)
-    if not npc_db:
-        raise HTTPException(status_code=404, detail="NPC no encontrado")
-    npc_db.activo = False
-    session.add(npc_db)
+    npc = session.get(NPC, npc_id)
+    if not npc:
+        raise HTTPException(404, "NPC no encontrado")
+
+    npc.activo = False
     session.commit()
-    return {"mensaje": f"NPC '{npc_db.nombre}' marcado como inactivo"}
+
+    return {"mensaje": f"NPC '{npc.nombre}' marcado como inactivo"}
