@@ -1,10 +1,20 @@
+import os
 from sqlmodel import create_engine, Session, SQLModel
-from typing import Generator
-sqlite_file_name = "npcs.db"
-sqlite_url = f"sqlite:///{sqlite_file_name}"
-engine = create_engine(sqlite_url, echo=False, connect_args={"check_same_thread": False})
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+engine = create_engine(
+    DATABASE_URL,
+    echo=True,
+    pool_pre_ping=True
+)
+
 def init_db() -> None:
     SQLModel.metadata.create_all(engine)
-def get_session() -> Generator[Session, None, None]:
+
+def get_session():
     with Session(engine) as session:
         yield session
