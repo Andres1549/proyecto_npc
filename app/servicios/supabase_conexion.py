@@ -18,17 +18,27 @@ async def upload_file(file: UploadFile) -> str:
 
     filename = f"uploads/{file.filename}"
 
-    res = supabase.storage.from_(SUPABASE_BUCKET).upload(
-        path=filename,
-        file=file_bytes,
-        file_options={
-            "content-type": file.content_type,
-            "upsert": True
-        }
-    )
-    if "error" in res:
-        raise Exception(res["error"])
+    try:
+        res = supabase.storage.from_(SUPABASE_BUCKET).upload(
+            path=filename,
+            file=file_bytes,
+            file_options={
+                "content-type": file.content_type
+            }
+        )
 
-    public_url = supabase.storage.from_(SUPABASE_BUCKET).get_public_url(filename)
+        if "error" in res and "already exists" in str(res["error"]).lower():
+            res = supabase.storage.from_(SUPABASE_BUCKET).update(
+                path=filename,
+                file=file_bytes,
+                file_options={
+                    "content-type": file.content_type
+                }
+            )
 
-    return public_url
+    except Exception as e:
+        raise Exception(f"Error subiendo archivo: {str(e)}")
+
+    url = supabase.storage.from_(SUPABASE_BUCKET).get_public_url(filename)
+
+    return url
