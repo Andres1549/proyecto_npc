@@ -4,3 +4,4 @@ from .misiones import router as misiones
 from .ubicaciones import router as ubicaciones
 from .busqueda import router as busqueda
 from .reportes import router as reportes
+
