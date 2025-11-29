@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.db import init_db
-from app.api.routers import npcs, items, misiones, ubicaciones, busqueda, reportes
+from app.routers import npcs, items, misiones, ubicaciones, busqueda, reportes
 from dotenv import load_dotenv
 load_dotenv()
 app = FastAPI(title="Proyecto NPC")
