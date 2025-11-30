@@ -1,70 +1,130 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Query
 from sqlmodel import Session, select
-from typing import List
+from typing import List, Optional
 from app.db import get_session
-from app.models import Mision
+from app.models import Mision, TipoMision, NPC
+from app.servicios.supabase_conexion import upload_file
 
-router = APIRouter(tags=["Misiones"])
-
+router = APIRouter()
 
 @router.get("/", response_model=List[Mision])
-def listar_misiones(
-    session: Session = Depends(get_session),
-    skip: int = Query(0, ge=0),
-    limit: int = Query(10, le=100)
-):
-    misiones = session.exec(select(Mision).where(Mision.activo == True).offset(skip).limit(limit)).all()
-    return misiones
+def listar_misiones(session: Session = Depends(get_session), skip: int = Query(0), limit: int = Query(50)):
+    return session.exec(select(Mision).where(Mision.activo == True).offset(skip).limit(limit)).all()
 
-
-@router.get("/{mision_id}", response_model=Mision)
-def obtener_mision(mision_id: int, session: Session = Depends(get_session)):
-    mision = session.get(Mision, mision_id)
-    if not mision or not mision.activo:
+@router.get("/{id}", response_model=Mision)
+def obtener_mision(id: int, session: Session = Depends(get_session)):
+    m = session.get(Mision, id)
+    if not m or not m.activo:
         raise HTTPException(status_code=404, detail="Misión no encontrada o inactiva")
-    return mision
-
+    return m
 
 @router.post("/", response_model=Mision, status_code=201)
-def crear_mision(mision: Mision, session: Session = Depends(get_session)):
-    session.add(mision)
+async def crear_mision(
+    titulo: str = Form(...),
+    descripcion: str = Form(...),
+    recompensa: str = Form(...),
+    tipo: TipoMision = Form(...),
+    id_npc: int = Form(...),
+    imagen: UploadFile = File(None),
+    session: Session = Depends(get_session)
+):
+    npc = session.get(NPC, id_npc)
+    if not npc or not npc.activo:
+        raise HTTPException(status_code=400, detail="NPC que entrega la misión no existe o está inactivo")
+
+    imagen_url = None
+    if imagen:
+        imagen_url = await upload_file(imagen)
+
+    m = Mision(
+        titulo=titulo,
+        descripcion=descripcion,
+        recompensa=recompensa,
+        tipo=tipo,
+        id_npc=id_npc,
+        imagen_url=imagen_url
+    )
+    session.add(m)
     session.commit()
-    session.refresh(mision)
-    return mision
+    session.refresh(m)
+    return m
 
-
-@router.put("/{mision_id}", response_model=Mision)
-def remplazar_mision(mision_id: int, datos_actualizados: Mision, session: Session = Depends(get_session)):
-    mision_db = session.get(Mision, mision_id)
-    if not mision_db or not mision_db.activo:
+@router.put("/{id}", response_model=Mision)
+async def reemplazar_mision(
+    id: int,
+    titulo: str = Form(...),
+    descripcion: str = Form(...),
+    recompensa: str = Form(...),
+    tipo: TipoMision = Form(...),
+    id_npc: int = Form(...),
+    imagen: UploadFile = File(None),
+    session: Session = Depends(get_session)
+):
+    m = session.get(Mision, id)
+    if not m or not m.activo:
         raise HTTPException(status_code=404, detail="Misión no encontrada o inactiva")
-    for key, value in datos_actualizados.dict(exclude_unset=True).items():
-        setattr(mision_db, key, value)
-    session.add(mision_db)
+
+    npc = session.get(NPC, id_npc)
+    if not npc or not npc.activo:
+        raise HTTPException(status_code=400, detail="NPC que entrega la misión no existe o está inactivo")
+
+    if imagen:
+        m.imagen_url = await upload_file(imagen)
+
+    m.titulo = titulo
+    m.descripcion = descripcion
+    m.recompensa = recompensa
+    m.tipo = tipo
+    m.id_npc = id_npc
+
+    session.add(m)
     session.commit()
-    session.refresh(mision_db)
-    return mision_db
+    session.refresh(m)
+    return m
 
-
-@router.patch("/{mision_id}", response_model=Mision)
-def actualizar_mision(mision_id: int, datos_parciales: dict, session: Session = Depends(get_session)):
-    mision_db = session.get(Mision, mision_id)
-    if not mision_db or not mision_db.activo:
+@router.patch("/{id}", response_model=Mision)
+async def actualizar_mision(
+    id: int,
+    titulo: Optional[str] = Form(None),
+    descripcion: Optional[str] = Form(None),
+    recompensa: Optional[str] = Form(None),
+    tipo: Optional[TipoMision] = Form(None),
+    id_npc: Optional[int] = Form(None),
+    imagen: UploadFile = File(None),
+    session: Session = Depends(get_session)
+):
+    m = session.get(Mision, id)
+    if not m or not m.activo:
         raise HTTPException(status_code=404, detail="Misión no encontrada o inactiva")
-    for key, value in datos_parciales.items():
-        setattr(mision_db, key, value)
-    session.add(mision_db)
+
+    if id_npc is not None:
+        npc = session.get(NPC, id_npc)
+        if not npc or not npc.activo:
+            raise HTTPException(status_code=400, detail="NPC que entrega la misión no existe o está inactivo")
+        m.id_npc = id_npc
+
+    if imagen:
+        m.imagen_url = await upload_file(imagen)
+    if titulo is not None:
+        m.titulo = titulo
+    if descripcion is not None:
+        m.descripcion = descripcion
+    if recompensa is not None:
+        m.recompensa = recompensa
+    if tipo is not None:
+        m.tipo = tipo
+
+    session.add(m)
     session.commit()
-    session.refresh(mision_db)
-    return mision_db
+    session.refresh(m)
+    return m
 
-
-@router.delete("/{mision_id}")
-def eliminar_mision(mision_id: int, session: Session = Depends(get_session)):
-    mision_db = session.get(Mision, mision_id)
-    if not mision_db:
+@router.delete("/{id}")
+def eliminar_mision(id: int, session: Session = Depends(get_session)):
+    m = session.get(Mision, id)
+    if not m:
         raise HTTPException(status_code=404, detail="Misión no encontrada")
-    mision_db.activo = False
-    session.add(mision_db)
+    m.activo = False
+    session.add(m)
     session.commit()
-    return {"mensaje": f"Misión '{mision_db.titulo}' marcada como inactiva"}
+    return {"mensaje": "Misión marcada como inactiva"}
