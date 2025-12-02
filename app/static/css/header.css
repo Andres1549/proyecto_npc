@@ -1,18 +1,3 @@
-/************************************************
- * ADORNO SUPERIOR
- ************************************************/
-.adorno-superior {
-    width: 100%;
-    height: auto;
-    display: block;
-
-    background-image: url("https://azbsgiuhvkwmpeiwrwdd.supabase.co/storage/v1/object/public/npc_imagenes/public/adorno_top%20(1)%20(1).png");
-    background-repeat: no-repeat;
-    background-position: center top;
-
-    background-size: 100% auto;
-    padding-top: 160px;
-}
 
 
 /************************************************
@@ -112,31 +97,30 @@
 }
 
 
-/************** MENÚ INFERIOR (BOTONES) ***************/
+/************** MENÚ INFERIOR CON RAMAS ***************/
 .menu-inferior {
     width: 100%;
     display: flex;
     justify-content: center;
-    gap: 25px;
-    background-color: #4C6658;
-    padding: 12px 0;
-    border-bottom: 4px solid #3E5548;
-}
+    gap: 15px;
 
+    background-image: url("https://azbsgiuhvkwmpeiwrwdd.supabase.co/storage/v1/object/public/npc_imagenes/public/adorno_top%20(1)%20(1).png");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 100% auto;
+
+    padding-top: 130px;
+    padding-bottom: 20px;
+
+    margin: 0;
+}
 .menu-inferior a {
     color: white;
     background: #5E0D12;
-    padding: 8px 18px;
-    border: 2px solid #220306;
+    padding: 6px 12px;
+    border: 2px solid #340508;
     font-family: "Cinzel", serif;
-    font-size: 15px;
+    font-size: 14px;
     text-decoration: none;
-    letter-spacing: 1px;
-    transition: 0.2s ease-in-out;
-}
-
-.menu-inferior a:hover {
-    background: #7A0F14;
-    transform: scale(1.07);
 }
 
