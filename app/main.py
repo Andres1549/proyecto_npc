@@ -23,7 +23,7 @@ async def home(request: Request, db: Session = Depends(get_session)):
     data = {
         "ubicaciones": db.query(Ubicacion).all(),
         "historia": db.query(NPC).filter(NPC.tipo == "historia").all(),
-        "misiones": db.query(NPC).filter(NPC.tipo == "mision").all(),
+        "misiones": db.query(NPC).filter(NPC.tipo == "misiones").all(),
         "vendedores": db.query(NPC).filter(NPC.tipo == "vendedor").all(),
     }
 
