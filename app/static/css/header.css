@@ -112,21 +112,31 @@
 }
 
 
-/************************************************
- * MENÚ INFERIOR
- ************************************************/
+/************** MENÚ INFERIOR (BOTONES) ***************/
 .menu-inferior {
-    margin-top: 8px;
+    width: 100%;
     display: flex;
-    gap: 12px;
+    justify-content: center;
+    gap: 25px;
+    background-color: #4C6658;
+    padding: 12px 0;
+    border-bottom: 4px solid #3E5548;
 }
 
 .menu-inferior a {
     color: white;
     background: #5E0D12;
-    padding: 6px 12px;
-    border: 2px solid #340508;
+    padding: 8px 18px;
+    border: 2px solid #220306;
     font-family: "Cinzel", serif;
-    font-size: 14px;
+    font-size: 15px;
     text-decoration: none;
+    letter-spacing: 1px;
+    transition: 0.2s ease-in-out;
 }
+
+.menu-inferior a:hover {
+    background: #7A0F14;
+    transform: scale(1.07);
+}
+
