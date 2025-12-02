@@ -78,6 +78,9 @@
 }
 
 /************** DERECHA (HAMBURGER BUTTON) ***************/
+.nav-right {
+    margin-right: 10px;
+}
 
 .hamburger {
     background: none;
