@@ -1,5 +1,5 @@
 from app.db import init_db,get_session
-from app.models import Ubicacion,NPC
+from app.models import *
 from app.routers import npcs, items, misiones, ubicaciones, busqueda, reportes
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request, Depends
@@ -29,7 +29,7 @@ def home(request: Request, session: Session = Depends(get_session)):
         "ubicaciones": ubicaciones,
         "historia": historia,
         "misiones": misiones,
-        "vendedores": vendedores
+        "vendedor": vendedores
     })
 
 app.include_router(npcs, prefix="/npcs", tags=["NPCs"])

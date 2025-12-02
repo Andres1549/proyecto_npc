@@ -27,17 +27,19 @@
 <main class="home-contenido">
 
 
-    {% include "componentes/carrusel.html"
-        with titulo="UBICACIONES" lista=ubicaciones id_carrusel="ubicaciones" %}
+{% for tipo, lista in {
+    "UBICACIONES": ubicaciones,
+    "HISTORIA": historia,
+    "MISIONES": misiones,
+    "VENDEDORES": vendedor
+}.items() %}
 
-    {% include "componentes/carrusel.html"
-        with titulo="HISTORIA" lista=historia id_carrusel="historia" %}
+    {% set titulo = tipo %}
+    {% set id_carrusel = tipo|lower %}
+    {% include "componentes/carrusel.html" %}
 
-    {% include "componentes/carrusel.html"
-        with titulo="MISIONES" lista=misiones id_carrusel="misiones" %}
+{% endfor %}
 
-    {% include "componentes/carrusel.html"
-        with titulo="VENDEDORES" lista=vendedores id_carrusel="vendedores" %}
 </main>
 
 
