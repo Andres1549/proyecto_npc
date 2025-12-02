@@ -1,23 +1,33 @@
-<div class="carrusel-box">
+<div class="home-contenido">
 
-    <div class="carrusel-header">
-        <h2 class="titulo-carrusel">{{ titulo }}</h2>
+    <div class="carrusel-section">
 
-        <div class="carrusel-controles">
-            <button onclick="moverCarrusel('{{ id_carrusel }}', -1)">⟨</button>
-            <button onclick="moverCarrusel('{{ id_carrusel }}', 1)">⟩</button>
+        <h2 class="carrusel-titulo">{{ titulo }}</h2>
+
+        <div class="carrusel-container">
+
+            <button class="btn-carrusel btn-left"
+                    onclick="moverCarrusel('{{ id_carrusel }}', -1)">
+                &lt;
+            </button>
+
+            <div id="carrusel-{{ id_carrusel }}" class="carrusel-items">
+                {% for item in lista %}
+                    <div class="card"
+                         onclick="irA('{{ id_carrusel }}', {{ item.id }})">
+                        <img src="{{ item.imagen_url }}" alt="{{ item.nombre }}">
+                        <p>{{ item.nombre }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button class="btn-carrusel btn-right"
+                    onclick="moverCarrusel('{{ id_carrusel }}', 1)">
+                &gt;
+            </button>
+
         </div>
+
     </div>
-
-    <div id="carrusel-{{ id_carrusel }}" class="carrusel-items">
-    {% for item in lista %}
-        <div class="card"
-             onclick="irA('{{ id_carrusel }}', {{ item.id }})">
-            <img src="{{ item.imagen_url }}" alt="{{ item.nombre }}">
-            <p>{{ item.nombre }}</p>
-        </div>
-    {% endfor %}
-</div>
-
 
 </div>
