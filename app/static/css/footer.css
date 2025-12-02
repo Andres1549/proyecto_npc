@@ -15,7 +15,7 @@
 
 .footer-line {
     flex: 1;
-    max-height: 80px;
+    max-height: 150px;
     object-fit: contain;
 }
 
