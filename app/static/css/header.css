@@ -157,15 +157,13 @@ html, body {
 }
 
 .nav-button {
-    /* Estilo para los enlaces del menú */
-    background-color: var(--color-dark-red);
+    background-color: var(#7e0707);
     color: white;
     text-decoration: none;
     padding: 10px 20px;
-    border: 2px solid white; /* Agrega un borde blanco para que se destaque */
+    border: 2px solid white;
     text-transform: uppercase;
     font-weight: bold;
-    display: block; /* Para que el padding funcione correctamente */
-    /* **Importante:** Quita cualquier 'border-radius' para que sean rectangulares. */
+    display: block;
     border-radius: 0;
 }
