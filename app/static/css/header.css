@@ -1,7 +1,6 @@
-
-/************** ADORNO SUPERIOR ***************/
-
-
+/************************************************
+ * ADORNO SUPERIOR
+ ************************************************/
 .adorno-superior {
     width: 100%;
     height: auto;
@@ -12,20 +11,24 @@
     background-position: center top;
 
     background-size: 100% auto;
-
     padding-top: 160px;
 }
-/************** NAVBAR ***************/
+
+
+/************************************************
+ * NAVBAR
+ ************************************************/
 .navbar {
     background-color: #4C6658;
     padding: 5px 20px;
     width: 100%;
+
     display: flex;
-    flex-direction: column; /* permite menú debajo */
+    flex-direction: column;
     align-items: center;
 }
 
-/* Contenedor superior */
+
 .nav-inner {
     width: 100%;
     max-width: 1400px;
@@ -34,7 +37,10 @@
     align-items: center;
 }
 
-/************** IZQUIERDA (LOGO + TÍTULO) ***************/
+
+/************************************************
+ * IZQUIERDA (LOGO + TÍTULO)
+ ************************************************/
 .nav-left {
     display: flex;
     align-items: center;
@@ -42,7 +48,7 @@
 }
 
 .logo {
-    height: 45px; /* más pequeño */
+    height: 45px;
     width: auto;
 }
 
@@ -54,7 +60,10 @@
     letter-spacing: 1px;
 }
 
-/************** BUSCADOR ***************/
+
+/************************************************
+ * BUSCADOR
+ ************************************************/
 .search-form {
     display: flex;
     align-items: center;
@@ -81,7 +90,10 @@
     font-size: 18px;
 }
 
-/************** HAMBURGER ***************/
+
+/************************************************
+ * HAMBURGER BUTTON
+ ************************************************/
 .hamburger {
     background: none;
     border: none;
@@ -99,7 +111,10 @@
     border-radius: 3px;
 }
 
-/************** MENÚ INFERIOR (BOTONES) ***************/
+
+/************************************************
+ * MENÚ INFERIOR
+ ************************************************/
 .menu-inferior {
     margin-top: 8px;
     display: flex;
