@@ -1,7 +1,7 @@
 /************** NAVBAR ***************/
 
 .navbar {
-    background-color: #0C0C0C;
+    background-color: #4C6658;
     padding: 10px 20px;
     width: 100%;
 }
@@ -12,7 +12,7 @@
     margin: 0 auto;
 
     display: flex;
-    justify-content: space-between;  /* Mantiene 3 columnas: izquierda - centro - derecha */
+    justify-content: space-between;
     align-items: center;
     gap: 20px;
 }
