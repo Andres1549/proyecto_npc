@@ -53,5 +53,20 @@ function moverCarrusel(tipo, direccion) {
     c.scrollLeft += direccion * (ancho / 2);
 }
 </script>
+<script>
+function irA(tipo, id) {
+    const rutas = {
+        "ubicaciones": "/ubicaciones/",
+        "historia": "/npcs/",
+        "misiones": "/npcs/",
+        "vendedores": "/npcs/"
+    };
+
+    const base = rutas[tipo];
+    if (base) {
+        window.location.href = base + id;
+    }
+}
+</script>
 
 </html>

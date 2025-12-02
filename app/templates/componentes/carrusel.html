@@ -10,12 +10,14 @@
     </div>
 
     <div id="carrusel-{{ id_carrusel }}" class="carrusel-items">
-        {% for item in lista %}
-            <div class="card">
-                <img src="{{ item.imagen_url }}" alt="{{ item.nombre }}">
-                <p>{{ item.nombre }}</p>
-            </div>
-        {% endfor %}
-    </div>
+    {% for item in lista %}
+        <div class="card"
+             onclick="irA('{{ id_carrusel }}', {{ item.id }})">
+            <img src="{{ item.imagen_url }}" alt="{{ item.nombre }}">
+            <p>{{ item.nombre }}</p>
+        </div>
+    {% endfor %}
+</div>
+
 
 </div>
