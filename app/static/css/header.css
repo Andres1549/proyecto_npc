@@ -1,103 +1,3 @@
-/************** NAVBAR ***************/
-
-.navbar {
-    background-color: #4C6658;
-    padding: 10px 20px;
-    width: 100%;
-}
-
-/* Contenedor principal */
-.nav-inner {
-    max-width: 100%;
-    overflow: hidden;
-    margin: 0 auto;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
-
-/************** IZQUIERDA (LOGO + TÍTULO) ***************/
-
-.nav-left {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.logo {
-    height: 55px;
-    width: auto;
-}
-
-.titulo {
-    color: white;
-    font-size: 22px;
-    margin: 0;
-    font-family: "Cinzel", Georgia, serif;
-    letter-spacing: 1px;
-}
-
-/************** CENTRO (BUSCADOR) ***************/
-
-.nav-middle {
-    flex: 1; /* Ocupa el espacio central */
-    display: flex;
-    justify-content: center;
-}
-
-.search-form {
-    display: flex;
-    align-items: center;
-    background-color: #1a1a1a;
-    padding: 6px 10px;
-    border-radius: 8px;
-    gap: 8px;
-}
-
-.search-input {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: white;
-    width: 200px;
-    font-size: 15px;
-}
-
-.search-input::placeholder {
-    color: #aaa;
-}
-
-.search-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #d4aa70;
-    font-size: 18px;
-}
-
-/************** DERECHA (HAMBURGER BUTTON) ***************/
-.nav-right {
-    margin-right: 10px;
-}
-
-.hamburger {
-    background: none;
-    border: none;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    cursor: pointer;
-}
-
-.hamburger span {
-    width: 22px;
-    height: 3px;
-    background-color: white;
-    display: block;
-    border-radius: 3px;
-}
 
 /************** ADORNO SUPERIOR ***************/
 
@@ -114,56 +14,104 @@
     background-size: 100% auto;
 
     padding-top: 160px;
-
-
 }
-html, body {
+/************** NAVBAR ***************/
+.navbar {
+    background-color: #4C6658;
+    padding: 5px 20px;
     width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
+    display: flex;
+    flex-direction: column; /* permite menú debajo */
+    align-items: center;
 }
 
+/* Contenedor superior */
 .nav-inner {
-    max-width: 100%;
-    overflow: hidden;
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.adorno-superior {
-    width: 100vw;
-    max-width: 100%;
-    overflow: hidden;
+/************** IZQUIERDA (LOGO + TÍTULO) ***************/
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.nav-right {
-    flex-shrink: 0;
-    padding-right: 12px;
+.logo {
+    height: 45px; /* más pequeño */
+    width: auto;
 }
 
-.hamburger {
-    flex-shrink: 0;
-}
-
-.main-nav {
-    text-align: center; /* Centra la lista de botones */
-    padding: 20px 0;
-}
-
-.main-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: inline-flex; /* Para poner los botones en una sola línea horizontal */
-    gap: 15px; /* Espacio entre los botones */
-}
-
-.nav-button {
-    background-color: var(#7e0707);
+.titulo {
     color: white;
-    text-decoration: none;
-    padding: 10px 20px;
-    border: 2px solid white;
-    text-transform: uppercase;
-    font-weight: bold;
+    font-size: 20px;
+    margin: 0;
+    font-family: "Cinzel", Georgia, serif;
+    letter-spacing: 1px;
+}
+
+/************** BUSCADOR ***************/
+.search-form {
+    display: flex;
+    align-items: center;
+    background-color: #1a1a1a;
+    padding: 6px 10px;
+    border-radius: 20px;
+    gap: 8px;
+}
+
+.search-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    width: 180px;
+    font-size: 14px;
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #d4aa70;
+    font-size: 18px;
+}
+
+/************** HAMBURGER ***************/
+.hamburger {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 20px;
+    height: 3px;
+    background-color: white;
     display: block;
-    border-radius: 0;
+    border-radius: 3px;
+}
+
+/************** MENÚ INFERIOR (BOTONES) ***************/
+.menu-inferior {
+    margin-top: 8px;
+    display: flex;
+    gap: 12px;
+}
+
+.menu-inferior a {
+    color: white;
+    background: #5E0D12;
+    padding: 6px 12px;
+    border: 2px solid #340508;
+    font-family: "Cinzel", serif;
+    font-size: 14px;
+    text-decoration: none;
 }
