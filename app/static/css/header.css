@@ -110,9 +110,9 @@
     background-position: center top;
     background-size: 100% auto;
 
-    height: 130px;
+    height: 135px;
 
-    align-items: flex-end;
+    align-items: flex-start;
 
     margin: 0;
     padding-bottom: 10px;
