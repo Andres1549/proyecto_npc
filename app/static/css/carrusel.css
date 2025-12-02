@@ -1,4 +1,4 @@
-/* ===== CONTENEDOR GENERAL ===== */
+/* ===== CONTENEDOR GENERAL - Sin cambios, mantiene el ancho y centrado general ===== */
 .home-contenido {
     width: 100%;
     max-width: 1300px;
@@ -6,98 +6,111 @@
     padding: 40px 0;
 }
 
-/* ===== TÍTULO ===== */
+/* --- NUEVOS Y MODIFICADOS --- */
+
+/* Contenedor que agrupa el título y el carrusel para el nuevo layout */
 .carrusel-section {
     margin-bottom: 50px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* TÍTULO  */
 .carrusel-titulo {
     background-color: #5E0D12;
     border: 2px solid #340508;
     color: white;
-    padding: 8px 25px;
+    padding: 15px 35px;
     font-family: "Cinzel", serif;
-    font-size: 22px;
+    font-size: 20px;
     border-radius: 6px;
-    display: inline-block;
-    margin-bottom: 15px;
+    display: block;
+    margin-right: 30px;
+    width: 150px;
+    text-align: center;
 }
-
-/* ===== CARRUSEL CONTENEDOR ===== */
+/* ===== CARRUSEL CONTENEDOR - MODIFICADO ===== */
 .carrusel-container {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: auto;
 }
 
-/* ===== BOTONES LATERALES ===== */
+/* ===== BOTONES LATERALES  ===== */
 .btn-carrusel {
-    background-color: #5E0D12;
-    border: 2px solid #340508;
-    color: white;
-    font-size: 28px;
-    padding: 10px 14px;
+    background-color: transparent;
+    border: 2px solid #5E0D12;
+    color: #5E0D12;
+    font-size: 30px;
+    padding: 0;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: 0.2s;
+    z-index: 10;
 }
 
 .btn-carrusel:hover {
-    background-color: #340508;
+    background-color: #5E0D12;
+    color: white;
 }
 
 .btn-left {
-    margin-right: 10px;
+    margin-right: -10px;
 }
 
 .btn-right {
-    margin-left: 10px;
+    margin-left: -10px;
 }
 
-/* ===== ÁREA DE ITEMS ===== */
 .carrusel-items {
     display: flex;
-    gap: 20px;
+    gap: 0;
     padding: 15px 0;
-
     width: 900px;
     overflow: hidden;
-
     scroll-behavior: smooth;
+    justify-content: center;
 }
 
-/* ===== CARD ===== */
+/* ===== CARD  ===== */
 .card {
-    min-width: 270px;
+    min-width: 300px;
     height: 260px;
-    background-color: rgba(0, 0, 0, 0.35);
+    background-color: white;
     border: 3px solid #340508;
-    border-radius: 6px;
-    padding: 10px;
+    border-radius: 4px;
+    padding: 5px;
     text-align: center;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.3s ease-in-out;
+    margin: 0 -20px;
 }
 
 .card:hover {
-    transform: scale(1.05);
+    transform: none;
 }
 
-/* Imagen dentro de la card */
+
+/* Imagen dentro de la card  */
 .card img {
     width: 100%;
-    height: 180px;
+    height: 200px;
     object-fit: cover;
     border-radius: 4px;
 }
 
-/* Nombre */
+/* Nombre - Color de texto */
 .card p {
     margin-top: 8px;
     font-family: "Cinzel", serif;
-    color: white;
+    color: #340508;
     font-size: 16px;
 }
