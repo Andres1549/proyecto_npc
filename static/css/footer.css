@@ -1,0 +1,23 @@
+.footer-container {
+    width: 100%;
+    background-color: #4C6658; /* Verde oscuro como la imagen */
+    padding: 10px 0;
+}
+
+.footer-bar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.footer-line {
+    height: 30px;
+    opacity: 0.9;
+}
+
+.footer-center {
+    height: 40px;
+    opacity: 1;
+}
