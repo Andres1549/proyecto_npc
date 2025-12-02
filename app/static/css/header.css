@@ -143,3 +143,29 @@ html, body {
     flex-shrink: 0;
 }
 
+.main-nav {
+    text-align: center; /* Centra la lista de botones */
+    padding: 20px 0;
+}
+
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: inline-flex; /* Para poner los botones en una sola línea horizontal */
+    gap: 15px; /* Espacio entre los botones */
+}
+
+.nav-button {
+    /* Estilo para los enlaces del menú */
+    background-color: var(--color-dark-red);
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: 2px solid white; /* Agrega un borde blanco para que se destaque */
+    text-transform: uppercase;
+    font-weight: bold;
+    display: block; /* Para que el padding funcione correctamente */
+    /* **Importante:** Quita cualquier 'border-radius' para que sean rectangulares. */
+    border-radius: 0;
+}
