@@ -23,40 +23,26 @@
 
 
 
-    <main class="home-contenido">
+<main class="home-contenido">
 
     {% include "componentes/carrusel.html" with context %}
 
-    <!-- CARRUSEL UBICACIONES -->
-    {% set titulo="Ubicación" %}
-    {% set tipo="ubicaciones" %}
-    {% include "componentes/carrusel.html" %}
-
-    <!-- CARRUSEL HISTORIA -->
-    {% set titulo="Historia" %}
-    {% set tipo="historia" %}
-    {% include "componentes/carrusel.html" %}
-
-    <!-- CARRUSEL MISIONES -->
-    {% set titulo="Misiones" %}
-    {% set tipo="misiones" %}
-    {% include "componentes/carrusel.html" %}
-
-    <!-- CARRUSEL VENDEDORES -->
-    {% set titulo="Vendedores" %}
-    {% set tipo="vendedores" %}
-    {% include "componentes/carrusel.html" %}
+    {% for tipo in ["ubicaciones", "historia", "misiones", "vendedores"] %}
+        {% set titulo = tipo.upper() %}
+        {% include "componentes/carrusel.html" %}
+    {% endfor %}
 
 </main>
+
 
     {% include "layout/footer.html" %}
 
 </body>
 <script>
 function moverCarrusel(tipo, direccion) {
-    const carrusel = document.getElementById("carrusel-" + tipo);
-    const ancho = carrusel.clientWidth;
-    carrusel.scrollLeft += direccion * (ancho / 2);
+    const c = document.getElementById("carrusel-" + tipo);
+    const ancho = c.clientWidth;
+    c.scrollLeft += direccion * (ancho / 2);
 }
 </script>
 

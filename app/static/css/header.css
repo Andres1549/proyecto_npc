@@ -79,6 +79,10 @@
 /************************************************
  * HAMBURGER BUTTON
  ************************************************/
+.nav-right {
+    margin-right: 10px;
+}
+
 .hamburger {
     background: none;
     border: none;
@@ -110,7 +114,7 @@
     background-position: center top;
     background-size: 100% auto;
 
-    height: 145px;
+    height: 150px;
 
     align-items: flex-start;
 

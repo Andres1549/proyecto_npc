@@ -1,48 +1,50 @@
-/* ===== SECCIÓN HOME ===== */
+/* ===== HOME ===== */
 
 .home-contenido {
-    width: 90%;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 30px 0;
 }
 
-
 /* ===== TITULO DEL CARRUSEL ===== */
+
+.carrusel-section {
+    text-align: center;
+    margin-bottom: 50px;
+}
 
 .carrusel-titulo {
     background-color: #5E0D12;
     border: 2px solid #340508;
     color: white;
-    padding: 8px 15px;
+    padding: 8px 20px;
     font-family: "Cinzel", serif;
-    font-size: 20px;
+    font-size: 22px;
     width: fit-content;
-    margin-bottom: 10px;
+    margin: 0 auto 15px auto;
+    border-radius: 5px;
 }
 
-
-/* ===== CONTENEDOR PRINCIPAL ===== */
-
-.carrusel-section {
-    margin-bottom: 50px;
-}
-
-
-/* ===== CARRUSEL ===== */
+/* ===== CONTENIDO DEL CARRUSEL ===== */
 
 .carrusel-container {
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
-    position: relative;
+    gap: 15px;
 }
+
+/* ===== LISTA DE ITEMS ===== */
 
 .carrusel-items {
     display: flex;
     overflow-x: auto;
     scroll-behavior: smooth;
-    gap: 15px;
+    gap: 20px;
     padding: 10px 0;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .carrusel-items::-webkit-scrollbar {
@@ -53,8 +55,7 @@
     background: #5E0D12;
 }
 
-
-/* ===== ELEMENTO DEL CARRUSEL ===== */
+/* ===== ITEM ===== */
 
 .item {
     text-align: center;
@@ -65,6 +66,7 @@
     width: 150px;
     height: 150px;
     border: 3px solid #340508;
+    border-radius: 4px;
     object-fit: cover;
 }
 
@@ -74,8 +76,7 @@
     color: white;
 }
 
-
-/* ===== BOTONES DE NAVEGACIÓN ===== */
+/* ===== BOTONES ===== */
 
 .btn-carrusel {
     background-color: #5E0D12;
@@ -89,12 +90,4 @@
 
 .btn-carrusel:hover {
     background-color: #340508;
-}
-
-.left {
-    margin-right: 5px;
-}
-
-.right {
-    margin-left: 5px;
 }
