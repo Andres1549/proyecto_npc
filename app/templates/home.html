@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="/static/css/header.css">
 <link rel="stylesheet" href="/static/css/footer.css">
+    <link rel="stylesheet" href="/static/css/carrusel.css">
     <style>
         body {
             background-color: rgba(33, 70, 25, 0.61);
@@ -22,12 +23,41 @@
 
 
 
-    <main style="padding: 40px; text-align:center;">
-        <h1>Bienvenido a la Wiki Silksong</h1>
-        <p>Contenido inicial aquí…</p>
-    </main>
+    <main class="home-contenido">
+
+    {% include "componentes/carrusel.html" with context %}
+
+    <!-- CARRUSEL UBICACIONES -->
+    {% set titulo="Ubicación" %}
+    {% set tipo="ubicaciones" %}
+    {% include "componentes/carrusel.html" %}
+
+    <!-- CARRUSEL HISTORIA -->
+    {% set titulo="Historia" %}
+    {% set tipo="historia" %}
+    {% include "componentes/carrusel.html" %}
+
+    <!-- CARRUSEL MISIONES -->
+    {% set titulo="Misiones" %}
+    {% set tipo="misiones" %}
+    {% include "componentes/carrusel.html" %}
+
+    <!-- CARRUSEL VENDEDORES -->
+    {% set titulo="Vendedores" %}
+    {% set tipo="vendedores" %}
+    {% include "componentes/carrusel.html" %}
+
+</main>
 
     {% include "layout/footer.html" %}
 
 </body>
+<script>
+function moverCarrusel(tipo, direccion) {
+    const carrusel = document.getElementById("carrusel-" + tipo);
+    const ancho = carrusel.clientWidth;
+    carrusel.scrollLeft += direccion * (ancho / 2);
+}
+</script>
+
 </html>

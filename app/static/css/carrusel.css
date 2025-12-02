@@ -1,0 +1,100 @@
+/* ===== SECCIÓN HOME ===== */
+
+.home-contenido {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+
+/* ===== TITULO DEL CARRUSEL ===== */
+
+.carrusel-titulo {
+    background-color: #5E0D12;
+    border: 2px solid #340508;
+    color: white;
+    padding: 8px 15px;
+    font-family: "Cinzel", serif;
+    font-size: 20px;
+    width: fit-content;
+    margin-bottom: 10px;
+}
+
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+
+.carrusel-section {
+    margin-bottom: 50px;
+}
+
+
+/* ===== CARRUSEL ===== */
+
+.carrusel-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.carrusel-items {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.carrusel-items::-webkit-scrollbar {
+    height: 6px;
+}
+
+.carrusel-items::-webkit-scrollbar-thumb {
+    background: #5E0D12;
+}
+
+
+/* ===== ELEMENTO DEL CARRUSEL ===== */
+
+.item {
+    text-align: center;
+    min-width: 150px;
+}
+
+.item img {
+    width: 150px;
+    height: 150px;
+    border: 3px solid #340508;
+    object-fit: cover;
+}
+
+.item p {
+    margin-top: 5px;
+    font-family: "Cinzel", serif;
+    color: white;
+}
+
+
+/* ===== BOTONES DE NAVEGACIÓN ===== */
+
+.btn-carrusel {
+    background-color: #5E0D12;
+    border: 2px solid #340508;
+    color: white;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+.btn-carrusel:hover {
+    background-color: #340508;
+}
+
+.left {
+    margin-right: 5px;
+}
+
+.right {
+    margin-left: 5px;
+}

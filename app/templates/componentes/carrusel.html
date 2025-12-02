@@ -1,0 +1,32 @@
+<div class="carrusel-section">
+
+    <div class="carrusel-titulo">
+        {{ titulo | upper }}
+    </div>
+
+    <div class="carrusel-container">
+
+        <button class="btn-carrusel left" onclick="moverCarrusel('{{ tipo }}', -1)">❮</button>
+
+        <div class="carrusel-items" id="carrusel-{{ tipo }}">
+            <div class="item">
+                <img src="https://via.placeholder.com/150" alt="{{ tipo }}">
+                <p>Ejemplo 1</p>
+            </div>
+
+            <div class="item">
+                <img src="https://via.placeholder.com/150" alt="{{ tipo }}">
+                <p>Ejemplo 2</p>
+            </div>
+
+            <div class="item">
+                <img src="https://via.placeholder.com/150" alt="{{ tipo }}">
+                <p>Ejemplo 3</p>
+            </div>
+        </div>
+
+        <button class="btn-carrusel right" onclick="moverCarrusel('{{ tipo }}', 1)">❯</button>
+
+    </div>
+
+</div>
