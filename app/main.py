@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from app.models import *
 load_dotenv()
 app = FastAPI(title="Proyecto NPC")
 
