@@ -1,9 +1,9 @@
 from app.db import init_db,get_session
-from app.models import Ubicacion
+from app.models import Ubicacion,NPC
 from app.routers import npcs, items, misiones, ubicaciones, busqueda, reportes
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request, Depends
-from sqlalchemy.orm import Session
+from sqlmodel import select,Session
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -18,19 +18,19 @@ templates = Jinja2Templates(directory="app/templates")
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 @app.get("/", response_class=HTMLResponse)
-async def home(request: Request, db: Session = Depends(get_session)):
+def home(request: Request, session: Session = Depends(get_session)):
+    ubicaciones = session.exec(select(Ubicacion).where(Ubicacion.activo == True)).all()
+    historia = session.exec(select(NPC).where(NPC.tipo == "historia")).all()
+    misiones = session.exec(select(NPC).where(NPC.tipo == "misiones")).all()
+    vendedores = session.exec(select(NPC).where(NPC.tipo == "vendedor")).all()
 
-    data = {
-        "ubicaciones": db.query(Ubicacion).all(),
-        "historia": db.query(NPC).filter(NPC.tipo == "historia").all(),
-        "misiones": db.query(NPC).filter(NPC.tipo == "misiones").all(),
-        "vendedores": db.query(NPC).filter(NPC.tipo == "vendedor").all(),
-    }
-
-    return templates.TemplateResponse(
-        "home.html",
-        {"request": request, "data": data}
-    )
+    return templates.TemplateResponse("home.html", {
+        "request": request,
+        "ubicaciones": ubicaciones,
+        "historia": historia,
+        "misiones": misiones,
+        "vendedores": vendedores
+    })
 
 app.include_router(npcs, prefix="/npcs", tags=["NPCs"])
 app.include_router(items, prefix="/items", tags=["Items"])

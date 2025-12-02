@@ -1,24 +1,21 @@
-<div class="carrusel-section">
+<div class="carrusel-box">
 
-    <div class="carrusel-titulo">{{ titulo }}</div>
+    <div class="carrusel-header">
+        <h2 class="titulo-carrusel">{{ titulo }}</h2>
 
-    <div class="carrusel-container">
-
-        <button class="btn-carrusel left"
-                onclick="moverCarrusel('{{ tipo }}', -1)">❮</button>
-
-        <div class="carrusel-items" id="carrusel-{{ tipo }}">
-            {% for item in data[tipo] %}
-                <div class="item">
-                    <img src="{{ item.imagen }}" alt="{{ item.nombre }}">
-                    <p>{{ item.nombre }}</p>
-                </div>
-            {% endfor %}
+        <div class="carrusel-controles">
+            <button onclick="moverCarrusel('{{ id_carrusel }}', -1)">⟨</button>
+            <button onclick="moverCarrusel('{{ id_carrusel }}', 1)">⟩</button>
         </div>
+    </div>
 
-        <button class="btn-carrusel right"
-                onclick="moverCarrusel('{{ tipo }}', 1)">❯</button>
-
+    <div id="carrusel-{{ id_carrusel }}" class="carrusel-items">
+        {% for item in lista %}
+            <div class="card">
+                <img src="{{ item.imagen_url }}" alt="{{ item.nombre }}">
+                <p>{{ item.nombre }}</p>
+            </div>
+        {% endfor %}
     </div>
 
 </div>
