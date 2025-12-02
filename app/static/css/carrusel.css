@@ -84,7 +84,7 @@
 .card {
     min-width: 300px;
     height: 260px;
-    background-color: white;
+    background-color: #7e0707;
     border: 3px solid #340508;
     border-radius: 4px;
     padding: 5px;
@@ -92,6 +92,7 @@
     cursor: pointer;
     transition: 0.3s ease-in-out;
     margin: 0 -20px;
+    font-family: "Cinzel", serif;
 }
 
 .card:hover {
