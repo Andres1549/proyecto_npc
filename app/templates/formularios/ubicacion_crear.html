@@ -1,0 +1,23 @@
+{% extends "layout/base.html" %}
+
+{% block content %}
+
+<link rel="stylesheet" href="/static/css/formularios.css">
+
+<h1>Crear Ubicación</h1>
+
+<form action="/ubicaciones/crear" method="post" enctype="multipart/form-data" class="form-card">
+
+    <label>Nombre:</label>
+    <input type="text" name="nombre" required>
+
+    <label>Descripción:</label>
+    <textarea name="descripcion" required></textarea>
+
+    <label>Imagen:</label>
+    <input type="file" name="imagen">
+
+    <button type="submit" class="btn-enviar">Crear</button>
+</form>
+
+{% endblock %}

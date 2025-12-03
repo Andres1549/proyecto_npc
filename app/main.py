@@ -1,6 +1,5 @@
 from app.db import init_db,get_session
-from app.models import *
-from app.routers import npcs, items, misiones, ubicaciones, busqueda, reportes
+from app.routers import npcs, items, misiones, ubicaciones, busqueda, reportes, historial
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request, Depends
 from sqlmodel import select,Session
@@ -38,3 +37,4 @@ app.include_router(misiones, prefix="/misiones", tags=["Misiones"])
 app.include_router(ubicaciones, prefix="/ubicaciones", tags=["Ubicaciones"])
 app.include_router(reportes, prefix="/reportes", tags=["Reportes"])
 app.include_router(busqueda, prefix="/global", tags=["Búsqueda Global"])
+app.include_router(historial, prefix="/historial", tags=["Historial"])

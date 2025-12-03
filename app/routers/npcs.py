@@ -128,10 +128,7 @@ def confirmar_borrar_npc(
         "formularios/eliminar_confirmacion.html",
         {
             "request": request,
-            "titulo": "Eliminar NPC",
-            "nombre": npc.nombre,
-            "url": f"/npcs/{id}/eliminar",
-            "volver": f"/npcs/{id}"
+            "npc": npc,
         }
     )
 

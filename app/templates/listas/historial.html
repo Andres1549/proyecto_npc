@@ -1,0 +1,20 @@
+{% extends "layout/base.html" %}
+
+{% block content %}
+<h1>Historial de Eliminados</h1>
+
+<h2>NPCs Eliminados</h2>
+<ul>
+    {% for npc in npcs %}
+        <li>{{ npc.nombre }} ({{ npc.tipo }})</li>
+    {% endfor %}
+</ul>
+
+<h2>Ubicaciones Eliminadas</h2>
+<ul>
+    {% for u in ubicaciones %}
+        <li>{{ u.nombre }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
