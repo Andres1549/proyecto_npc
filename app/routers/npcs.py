@@ -30,7 +30,7 @@ def editar_npc_form(id: int, request: Request, session: Session = Depends(get_se
     ubicaciones = session.exec(select(Ubicacion).where(Ubicacion.activo == True)).all()
 
     return templates.TemplateResponse(
-        "formulario/npc_editar.html",
+        "formularios/npc_editar.html",
         {
             "request": request,
             "npc": npc,
