@@ -1,3 +1,11 @@
+.subtitulo{
+background-color: #5E0D12;
+    border: 2px solid #340508;
+    color: white;
+    font-family: "Cinzel", serif;
+    font-size: 20px;
+    padding: 10px 20px;
+}
 .detalle-container {
     display: flex;
     justify-content: space-between;
@@ -44,6 +52,15 @@
     width: 140px;
     text-align: center;
     cursor: pointer;
+    background: black;
+    border: 3px solid #5E0D12;
+    border-radius: 4px;
+    transition: 0.3s ease-in-out;
+}
+
+.item-card:hover {
+    transform: scale(1.05);
+    background: crimson;
 }
 
 .item-card img {
