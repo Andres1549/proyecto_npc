@@ -1,27 +1,36 @@
 {% extends "layout/base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/formularios.css">
+{% endblock %}
+
 {% block content %}
 
-<h1 class="form-titulo">Crear Misión</h1>
+<div class="formulario-box">
 
-<form method="post" class="formulario">
+    <h1 class="form-titulo">Crear Misión</h1>
 
-    <label>Título</label>
-    <input name="titulo" required>
+    <form method="post">
 
-    <label>Descripción</label>
-    <textarea name="descripcion" required></textarea>
+        <label>Título</label>
+        <input type="text" name="titulo" required>
 
-    <label>Recompensa</label>
-    <input name="recompensa" required>
+        <label>Descripción</label>
+        <textarea name="descripcion" required></textarea>
 
-    <label>Tipo</label>
-    <select name="tipo">
-        <option value="principal">Principal</option>
-        <option value="secundaria">Secundaria</option>
-    </select>
+        <label>Recompensa</label>
+        <input type="text" name="recompensa" required>
 
-    <button class="btn-accion" type="submit">Crear</button>
+        <label>Tipo</label>
+        <select name="tipo">
+            <option value="principal">Principal</option>
+            <option value="secundaria">Secundaria</option>
+        </select>
 
-</form>
+        <button class="btn-form" type="submit">Crear</button>
+
+    </form>
+
+</div>
 
 {% endblock %}

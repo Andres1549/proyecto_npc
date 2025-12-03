@@ -1,31 +1,39 @@
 {% extends "layout/base.html" %}
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/formularios.css">
+{% endblock %}
+
 {% block content %}
 
-<h1 class="form-titulo">Crear Objeto</h1>
+<div class="formulario-box">
 
-<form method="post" enctype="multipart/form-data" class="formulario">
-    
-    <label>Nombre</label>
-    <input name="nombre" required>
+    <h1 class="form-titulo">Crear Objeto</h1>
 
-    <label>Descripción</label>
-    <textarea name="descripcion" required></textarea>
+    <form method="post" enctype="multipart/form-data">
 
-    <label>Precio</label>
-    <input type="number" name="precio" required>
+        <label>Nombre</label>
+        <input type="text" name="nombre" required>
 
-    <label>Tipo</label>
-    <select name="tipo" required>
-        <option value="herramienta">Herramienta</option>
-        <option value="material">Material</option>
-        <option value="mejora">Mejora</option>
-    </select>
+        <label>Descripción</label>
+        <textarea name="descripcion" required></textarea>
 
-    <label>Imagen</label>
-    <input type="file" name="imagen">
+        <label>Precio</label>
+        <input type="number" name="precio" required>
 
-    <button class="btn-accion" type="submit">Crear</button>
+        <label>Tipo</label>
+        <select name="tipo" required>
+            <option value="herramienta">Herramienta</option>
+            <option value="material">Material</option>
+            <option value="mejora">Mejora</option>
+        </select>
 
-</form>
+        <label>Imagen</label>
+        <input type="file" name="imagen" accept="image/*">
+
+        <button class="btn-form" type="submit">Crear</button>
+
+    </form>
+
+</div>
 
 {% endblock %}
