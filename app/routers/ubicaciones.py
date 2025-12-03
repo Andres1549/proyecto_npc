@@ -9,22 +9,7 @@ from app.utils.templates import templates
 from fastapi.responses import RedirectResponse
 router = APIRouter()
 
-@router.get("/{ubicacion_id}")
-def detalle_ubicacion(ubicacion_id: int, request: Request, session: Session = Depends(get_session)):
-    ubicacion = session.get(Ubicacion, ubicacion_id)
-    if not ubicacion:
-        return {"error": "Ubicación no encontrada"}
 
-    npc_list = ubicacion.npcs  # gracias al Relationship
-
-    return templates.TemplateResponse(
-        "detalles/ubicacion_detalle.html",
-        {
-            "request": request,
-            "ubicacion": ubicacion,
-            "npc_list": npc_list
-        }
-    )
 @router.get("/crear", response_class=HTMLResponse)
 def form_crear_ubicacion(request: Request):
     return templates.TemplateResponse("formularios/ubicacion_crear.html", {
@@ -139,7 +124,22 @@ def eliminar_ubicacion_form(
 
     return RedirectResponse(url="/ubicaciones", status_code=303)
 
+@router.get("/{ubicacion_id}")
+def detalle_ubicacion(ubicacion_id: int, request: Request, session: Session = Depends(get_session)):
+    ubicacion = session.get(Ubicacion, ubicacion_id)
+    if not ubicacion:
+        return {"error": "Ubicación no encontrada"}
 
+    npc_list = ubicacion.npcs  # gracias al Relationship
+
+    return templates.TemplateResponse(
+        "detalles/ubicacion_detalle.html",
+        {
+            "request": request,
+            "ubicacion": ubicacion,
+            "npc_list": npc_list
+        }
+    )
 @router.get("/", response_class=HTMLResponse)
 def listar_ubicaciones(request: Request, db: Session = Depends(get_session)):
     ubicaciones = db.query(Ubicacion).filter(Ubicacion.activo == True).all()
@@ -147,3 +147,32 @@ def listar_ubicaciones(request: Request, db: Session = Depends(get_session)):
         "request": request,
         "ubicaciones": ubicaciones
     })
+@router.get("/ubicacion/{id}/restaurar")
+def confirmar_restaurar_ubicacion(
+    request: Request,
+    id: int,
+    session: Session = Depends(get_session)
+):
+    """Muestra la página de confirmación para restaurar una Ubicación."""
+    u = session.get(Ubicacion, id)
+    if not u or u.activo:
+        raise HTTPException(status_code=404, detail="Ubicación no encontrada o ya está activa")
+
+    return templates.TemplateResponse("formularios/restaurar_confirmacion.html", {
+        "request": request,
+        "nombre": u.nombre,
+        "url_post": f"/historial/ubicacion/{id}/restaurar",
+        "url_volver": "/historial",
+    })
+
+@router.post("/ubicacion/{id}/restaurar")
+def restaurar_ubicacion(id: int, session: Session = Depends(get_session)):
+    u = session.get(Ubicacion, id)
+    if not u or u.activo:
+        raise HTTPException(status_code=404, detail="Ubicación no encontrada o ya está activa")
+
+    u.activo = True
+    session.add(u)
+    session.commit()
+    session.refresh(u)
+    return RedirectResponse(url=f"/ubicaciones/{id}", status_code=303)

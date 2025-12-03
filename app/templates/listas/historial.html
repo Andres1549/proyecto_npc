@@ -15,10 +15,10 @@
 
         <div class="lista-grid">
             {% for npc in npcs %}
-                <div class="lista-card">
+                <a href="/historial/npc/{{ npc.id }}/restaurar" class="lista-card">
                     <p>{{ npc.nombre }}</p>
                     <p style="font-size: 0.8em; opacity: 0.7;">Tipo: {{ npc.tipo|capitalize }}</p>
-                </div>
+                </a>
             {% else %}
                 <p>No hay NPCs eliminados.</p>
             {% endfor %}
@@ -32,9 +32,9 @@
 
         <div class="lista-grid">
             {% for u in ubicaciones %}
-                <div class="lista-card">
+                <a href="/historial/ubicacion/{{ u.id }}/restaurar" class="lista-card">
                     <p>{{ u.nombre }}</p>
-                </div>
+                </a>
             {% else %}
                 <p>No hay Ubicaciones eliminadas.</p>
             {% endfor %}

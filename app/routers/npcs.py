@@ -32,31 +32,7 @@ def editar_npc_form(id: int, request: Request, session: Session = Depends(get_se
         }
     )
 
-@router.get("/{npc_id}")
-def detalle_npc(npc_id: int, request: Request, session: Session = Depends(get_session)):
 
-    npc = session.get(NPC, npc_id)
-    if not npc:
-        return {"error": "NPC no encontrado"}
-
-    items = []
-    misiones = []
-
-    if npc.tipo == "vendedor":
-        items = npc.items
-
-    if npc.tipo == "misiones":
-        misiones = npc.misiones
-
-    return templates.TemplateResponse(
-        "detalles/npc_detalle.html",
-        {
-            "request": request,
-            "npc": npc,
-            "items": items,
-            "misiones": misiones,
-        }
-    )
 
 @router.get("/crear", response_class=HTMLResponse)
 def form_crear_npc(request: Request, session: Session = Depends(get_session)):
@@ -167,10 +143,65 @@ def listar_npcs_tipo(tipo: str, request: Request, db: Session = Depends(get_sess
     if tipo not in validos:
         return HTMLResponse("Tipo no válido", status_code=404)
 
-    npcs = db.query(NPC).filter(NPC.tipo == tipo).all()
+    npcs = db.query(NPC).filter(NPC.activo == True).all()
 
     return templates.TemplateResponse("listas/npcs.html", {
         "request": request,
         "npcs": npcs,
         "titulo": tipo.upper()
     })
+@router.get("/{npc_id}")
+def detalle_npc(npc_id: int, request: Request, session: Session = Depends(get_session)):
+
+    npc = session.get(NPC, npc_id)
+    if not npc:
+        return {"error": "NPC no encontrado"}
+
+    items = []
+    misiones = []
+
+    if npc.tipo == "vendedor":
+        items = npc.items
+
+    if npc.tipo == "misiones":
+        misiones = npc.misiones
+
+    return templates.TemplateResponse(
+        "detalles/npc_detalle.html",
+        {
+            "request": request,
+            "npc": npc,
+            "items": items,
+            "misiones": misiones,
+        }
+    )
+
+@router.get("/npc/{id}/restaurar")
+def confirmar_restaurar_npc(
+    request: Request,
+    id: int,
+    session: Session = Depends(get_session)
+):
+    npc = session.get(NPC, id)
+    if not npc or npc.activo:
+        raise HTTPException(status_code=404, detail="NPC no encontrado o ya está activo")
+
+    return templates.TemplateResponse("formularios/restaurar_confirmacion.html", {
+        "request": request,
+        "nombre": npc.nombre,
+        "url_post": f"/historial/npc/{id}/restaurar",
+        "url_volver": "/historial",
+    })
+
+@router.post("/npc/{id}/restaurar")
+def restaurar_npc(id: int, session: Session = Depends(get_session)):
+    npc = session.get(NPC, id)
+    if not npc or npc.activo:
+        raise HTTPException(status_code=404, detail="NPC no encontrado o ya está activo")
+
+    npc.activo = True
+    session.add(npc)
+    session.commit()
+    session.refresh(npc)
+
+    return RedirectResponse(url=f"/npcs/{id}", status_code=303)

@@ -1,0 +1,23 @@
+{% extends "layout/base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/formularios.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="formulario-box">
+    
+    <h1 class="form-titulo">Confirmar Restauración</h1> 
+
+    <p class="form-texto">
+        ¿Estás seguro de que deseas restaurar <strong>{{ nombre }}</strong>?
+        <br>Volverá a estar visible en las listas principales.
+    </p>
+
+    <form method="post" action="{{ url_post }}">
+        <button type="submit" class="btn-form" style="background-color: #008000; color: white;">Restaurar</button>
+        <a href="{{ url_volver }}" class="btn-form">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
