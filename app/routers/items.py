@@ -7,7 +7,7 @@ from app.servicios.supabase_conexion import upload_file
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 
-router = APIRouter(prefix="/items", tags=["Items"])
+router = APIRouter()
 
 templates = Jinja2Templates(directory="app/templates")
 @router.get("/crear")
