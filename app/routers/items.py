@@ -15,7 +15,7 @@ templates = Jinja2Templates(directory="app/templates")
 
 
 @router.get("/crear")
-def form_crear_item(request: Request, npc_id: int):
+def form_crear_item(request: Request, npc_id: int = Query(...)):
     return templates.TemplateResponse("formularios/item_form.html", {
         "request": request,
         "npc_id": npc_id
