@@ -1,4 +1,5 @@
 import os
+import uuid
 from fastapi import UploadFile
 from supabase import create_client
 from dotenv import load_dotenv
@@ -11,30 +12,24 @@ SUPABASE_BUCKET = os.getenv("SUPABASE_BUCKET")
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-
 async def upload_file(file: UploadFile) -> str:
-    file_bytes = await file.read()
+    if not file:
+        return None  # No hay archivo
 
-    filename = f"public/{file.filename}"
+    content = await file.read()
 
-    try:
-        supabase.storage.from_(SUPABASE_BUCKET).upload(
-            path=filename,
-            file=file_bytes,
-            file_options={
-                "content_type": file.content_type,
-                "upsert": True
-            }
-        )
-    except Exception:
-        supabase.storage.from_(SUPABASE_BUCKET).update(
-            path=filename,
-            file=file_bytes,
-            file_options={
-                "content_type": file.content_type
-            }
-        )
+    if not content:
+        return None  # Archivo vacío
 
-    public_url = supabase.storage.from_(SUPABASE_BUCKET).get_public_url(filename)
+    filename = f"{uuid.uuid4()}_{file.filename}"
 
-    return public_url
+    supabase.storage.from_(SUPABASE_BUCKET).upload(
+        path=filename,
+        file=content,
+        file_options={"content-type": file.content_type, "upsert": True}
+    )
+
+    url = f"{SUPABASE_URL}/storage/v1/object/public/{SUPABASE_BUCKET}/{filename}"
+
+    return url
+
