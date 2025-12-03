@@ -9,7 +9,9 @@
 
     <h1 class="form-titulo">Crear Objeto</h1>
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" action="/items/crear">
+
+        <input type="hidden" name="npc_id" value="{{ npc_id }}">
 
         <label>Nombre</label>
         <input type="text" name="nombre" required>
@@ -18,13 +20,20 @@
         <textarea name="descripcion" required></textarea>
 
         <label>Precio</label>
-        <input type="number" name="precio" required>
+        <input type="number" name="precio" required min="0">
 
         <label>Tipo</label>
         <select name="tipo" required>
             <option value="herramienta">Herramienta</option>
             <option value="material">Material</option>
             <option value="mejora">Mejora</option>
+        </select>
+
+        <!-- 💡 2. CAMPO NUEVO: Usa Metal Artesano -->
+        <label>Usa Metal Artesano</label>
+        <select name="usa_metal_artesano" required>
+            <option value="false">No</option>
+            <option value="true">Sí</option>
         </select>
 
         <label>Imagen</label>

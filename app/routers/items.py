@@ -10,8 +10,11 @@ from fastapi.responses import RedirectResponse
 router = APIRouter()
 
 templates = Jinja2Templates(directory="app/templates")
+
+
 @router.get("/crear")
 def form_crear_item(request: Request, npc_id: int = Query(...)):
+    # La URL llama a /items/crear?npc_id=X, y aquí lo pasamos al HTML
     return templates.TemplateResponse(
         "formularios/item_form.html",
         {"request": request, "npc_id": npc_id}
@@ -20,14 +23,15 @@ def form_crear_item(request: Request, npc_id: int = Query(...)):
 
 @router.post("/crear")
 async def crear_item(
-    request: Request,
-    npc_id: int = Form(...),
-    nombre: str = Form(...),
-    descripcion: str = Form(...),
-    precio: int = Form(...),
-    tipo: str = Form(...),
-    imagen: UploadFile = File(None),
-    session: Session = Depends(get_session)
+        request: Request,
+        npc_id: int = Form(...),
+        nombre: str = Form(...),
+        descripcion: str = Form(...),
+        precio: int = Form(...),
+        tipo: str = Form(...),
+        usa_metal_artesano: bool = Form(False),
+        imagen: UploadFile = File(None),
+        session: Session = Depends(get_session)
 ):
     img_url = None
     if imagen and imagen.filename:
@@ -38,7 +42,8 @@ async def crear_item(
         descripcion=descripcion,
         precio=precio,
         tipo=tipo,
-        imagen_url=img_url
+        imagen_url=img_url,
+        usa_metal_artesano=usa_metal_artesano  # Asignación
     )
 
     session.add(item)
@@ -46,12 +51,17 @@ async def crear_item(
     session.refresh(item)
 
     npc = session.get(NPC, npc_id)
+    if not npc:
+        raise HTTPException(status_code=404, detail="NPC asociado no encontrado")
+
+    if npc.items is None:
+        npc.items = []
+
     npc.items.append(item)
     session.add(npc)
     session.commit()
 
     return RedirectResponse(url=f"/npcs/{npc_id}", status_code=303)
-
 
 @router.get("/", response_model=List[Item])
 def listar_items(session: Session = Depends(get_session), skip: int = Query(0), limit: int = Query(10)):
