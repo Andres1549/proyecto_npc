@@ -14,13 +14,7 @@ templates = Jinja2Templates(directory="app/templates")
 
 router = APIRouter()
 
-@router.get("/", response_model=List[NPC])
-def listar_npcs(
-    session: Session = Depends(get_session),
-    skip: int = Query(0, ge=0),
-    limit: int = Query(10, le=100)
-):
-    return session.exec(select(NPC).where(NPC.activo == True).offset(skip).limit(limit)).all()
+
 
 @router.get("/{id}/editar", response_class=HTMLResponse)
 def editar_npc_form(id: int, request: Request, session: Session = Depends(get_session)):
@@ -151,7 +145,7 @@ def borrar_npc(id: int, session: Session = Depends(get_session)):
     session.add(npc)
     session.commit()
 
-    return RedirectResponse("/npcs", status_code=303)
+    return RedirectResponse("/", status_code=303)
 
 
 

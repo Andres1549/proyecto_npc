@@ -28,7 +28,11 @@
         </select>
 
         <label>Imagen</label>
-        <input type="file" name="imagen" accept="image/*">
+        <input type="file" name="imagen"
+       accept="image/*"
+       required
+       oninvalid="this.setCustomValidity('Debes subir una imagen')"
+       oninput="this.setCustomValidity('')">
 
         <button class="btn-form" type="submit">Crear</button>
 

@@ -142,3 +142,34 @@ html, body {
     overflow: hidden;
 }
 
+/* ===== MENÚ HAMBURGUESA ===== */
+
+.burger-menu {
+    position: fixed;
+    top: 70px;
+    right: -250px;
+    width: 220px;
+    background-color: #4C6658;
+    border: 2px solid #2b3d33;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: right 0.3s ease-in-out;
+    z-index: 1200;
+}
+
+.burger-menu a {
+    color: white;
+    background: #5E0D12;
+    padding: 10px;
+    border: 2px solid #340508;
+    text-decoration: none;
+    font-family: "Cinzel", serif;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.burger-menu a:hover {
+    background: #340508;
+}
