@@ -20,6 +20,21 @@ def listar_npcs(
 ):
     return session.exec(select(NPC).where(NPC.activo == True).offset(skip).limit(limit)).all()
 
+@router.get("/{id}/editar", response_class=HTMLResponse)
+def editar_npc_form(id: int, request: Request, session: Session = Depends(get_session)):
+    npc = session.get(NPC, id)
+    if not npc or not npc.activo:
+        raise HTTPException(status_code=404, detail="NPC no encontrado")
+    ubicaciones = session.exec(select(Ubicacion).where(Ubicacion.activo == True)).all()
+
+    return templates.TemplateResponse(
+        "formulario/editar.html",
+        {
+            "request": request,
+            "npc": npc,
+            "ubicaciones": ubicaciones
+        }
+    )
 
 @router.get("/{npc_id}")
 def detalle_npc(npc_id: int, request: Request, session: Session = Depends(get_session)):
@@ -75,80 +90,46 @@ async def crear_npc(
     session.refresh(npc)
     return npc
 
-@router.put("/{npc_id}", response_model=NPC)
-async def remplazar_npc(
-    npc_id: int,
+@router.post("/{id}/editar")
+async def actualizar_npc_form(
+    id: int,
     nombre: str = Form(...),
     descripcion: str = Form(...),
-    tipo: TipoNPC = Form(...),
+    tipo: str = Form(...),
     id_ubicacion: int = Form(...),
     imagen: UploadFile = File(None),
     session: Session = Depends(get_session)
 ):
-    npc_db = session.get(NPC, npc_id)
-    if not npc_db or not npc_db.activo:
-        raise HTTPException(status_code=404, detail="NPC no encontrado o inactivo")
-
-    ubic = session.get(Ubicacion, id_ubicacion)
-    if not ubic or not ubic.activo:
-        raise HTTPException(status_code=400, detail="Ubicación inválida")
-
-    if imagen:
-        npc_db.imagen_url = await upload_file(imagen)
-
-    npc_db.nombre = nombre
-    npc_db.descripcion = descripcion
-    npc_db.tipo = tipo
-    npc_db.id_ubicacion = id_ubicacion
-
-    session.add(npc_db)
-    session.commit()
-    session.refresh(npc_db)
-    return npc_db
-
-@router.patch("/{npc_id}", response_model=NPC)
-async def actualizar_npc(
-    npc_id: int,
-    nombre: Optional[str] = Form(None),
-    descripcion: Optional[str] = Form(None),
-    tipo: Optional[TipoNPC] = Form(None),
-    id_ubicacion: Optional[int] = Form(None),
-    imagen: UploadFile = File(None),
-    session: Session = Depends(get_session)
-):
-    npc_db = session.get(NPC, npc_id)
-    if not npc_db or not npc_db.activo:
-        raise HTTPException(status_code=404, detail="NPC no encontrado o inactivo")
-
-    if id_ubicacion is not None:
-        ubic = session.get(Ubicacion, id_ubicacion)
-        if not ubic or not ubic.activo:
-            raise HTTPException(status_code=400, detail="Ubicación inválida")
-        npc_db.id_ubicacion = id_ubicacion
-
-    if imagen:
-        npc_db.imagen_url = await upload_file(imagen)
-    if nombre is not None:
-        npc_db.nombre = nombre
-    if descripcion is not None:
-        npc_db.descripcion = descripcion
-    if tipo is not None:
-        npc_db.tipo = tipo
-
-    session.add(npc_db)
-    session.commit()
-    session.refresh(npc_db)
-    return npc_db
-
-@router.delete("/{npc_id}")
-def eliminar_npc(npc_id: int, session: Session = Depends(get_session)):
-    npc_db = session.get(NPC, npc_id)
-    if not npc_db:
+    npc = session.get(NPC, id)
+    if not npc or not npc.activo:
         raise HTTPException(status_code=404, detail="NPC no encontrado")
-    npc_db.activo = False
-    session.add(npc_db)
+
+    npc.nombre = nombre
+    npc.descripcion = descripcion
+    npc.tipo = TipoNPC(tipo)
+
+    npc.id_ubicacion = id_ubicacion
+    if imagen and imagen.filename:
+        npc.imagen_url = await upload_file(imagen)
+
+    session.add(npc)
     session.commit()
-    return {"mensaje": f"NPC '{npc_db.nombre}' marcado como inactivo"}
+    session.refresh(npc)
+
+    return RedirectResponse(url=f"/npcs/{id}", status_code=303)
+
+@router.post("/{id}/borrar")
+def borrar_npc(id: int, session: Session = Depends(get_session)):
+    npc = session.get(NPC, id)
+    if not npc:
+        raise HTTPException(status_code=404, detail="NPC no encontrado")
+
+    npc.activo = False
+    session.add(npc)
+    session.commit()
+
+    return RedirectResponse("/", status_code=303)
+
 
 @router.get("/tipo/{tipo}", response_class=HTMLResponse)
 def listar_npcs_tipo(tipo: str, request: Request, db: Session = Depends(get_session)):

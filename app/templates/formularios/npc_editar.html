@@ -1,0 +1,52 @@
+{% include "layout/header.html" %}
+
+<link rel="stylesheet" href="/static/css/formularios.css">
+
+<main class="form-container">
+
+    <h2>Editar NPC</h2>
+
+<form action="/npcs/{{ npc.id }}/editar" method="post" enctype="multipart/form-data">
+
+        <label>Nombre</label>
+        <input type="text" name="nombre" value="{{ npc.nombre }}" required>
+
+        <label>Descripción</label>
+        <textarea name="descripcion" required>{{ npc.descripcion }}</textarea>
+
+        <label>Tipo</label>
+        <select name="tipo" required>
+            {% for t in ["historia", "vendedor", "misiones"] %}
+            <option value="{{ t }}" {% if npc.tipo == t %}selected{% endif %}>{{ t|capitalize }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Ubicación</label>
+        <select name="id_ubicacion" required>
+            {% for u in ubicaciones %}
+            <option value="{{ u.id }}" {% if npc.id_ubicacion == u.id %}selected{% endif %}>
+                {{ u.nombre }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Imagen actual:</label>
+        {% if npc.imagen_url %}
+        <img src="{{ npc.imagen_url }}" class="preview-img">
+        {% else %}
+        <p>No hay imagen</p>
+        {% endif %}
+
+        <label>Nueva imagen (opcional)</label>
+        <input type="file" name="imagen" accept="image/*">
+
+        <button type="submit" class="btn-guardar">Guardar cambios</button>
+    </form>
+
+    <form action="/npcs/{{ npc.id }}/borrar" method="post" class="form-borrar">
+        <button type="submit" class="btn-borrar">Borrar NPC</button>
+    </form>
+
+</main>
+
+{% include "layout/footer.html" %}
