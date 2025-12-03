@@ -78,11 +78,11 @@ def form_editar_ubicacion(
         "ubicacion": u
     })
 
-@router.patch("/{id}", response_model=Ubicacion)
-async def actualizar_ubicacion(
+@router.post("/{id}/editar")
+async def actualizar_ubicacion_form(
     id: int,
-    nombre: Optional[str] = Form(None),
-    descripcion: Optional[str] = Form(None),
+    nombre: str = Form(...),
+    descripcion: str = Form(...),
     imagen: UploadFile = File(None),
     session: Session = Depends(get_session)
 ):
@@ -90,20 +90,17 @@ async def actualizar_ubicacion(
     if not u or not u.activo:
         raise HTTPException(status_code=404, detail="Ubicación no encontrada o inactiva")
 
-    if imagen and imagen.filename:
-        nueva_url = await upload_file(imagen)
-        if nueva_url:
-            u.imagen_url = nueva_url
-    if nombre:
-        u.nombre = nombre
-    if descripcion:
-        u.descripcion = descripcion
+    if imagen:
+        u.imagen_url = await upload_file(imagen)
+
+    u.nombre = nombre
+    u.descripcion = descripcion
 
     session.add(u)
     session.commit()
     session.refresh(u)
 
-    return u
+    return RedirectResponse(url=f"/ubicaciones/{id}", status_code=303)
 
 @router.get("/{id}/eliminar")
 def confirmar_eliminar_ubicacion(
