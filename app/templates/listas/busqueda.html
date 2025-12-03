@@ -21,9 +21,9 @@
 
     {% include "layout/header.html" %}
 
-    <main class="main-resultados">
+    <main class="lista-contenedor">
 
-        <h1 class="titulo-lista">Resultados para "{{ termino }}"</h1>
+        <h1 class="lista-titulo">Resultados para "{{ termino }}"</h1>
 
         {% if not npcs and not items and not misiones and not ubicaciones %}
             <p class="sin-resultados">No se encontraron resultados.</p>
@@ -31,9 +31,9 @@
 
         {% if npcs %}
         <h2 class="subtitulo">NPCs</h2>
-        <div class="lista-cards">
+        <div class="lista-grid">
             {% for n in npcs %}
-                <div class="card-item" onclick="window.location.href='/npcs/{{ n.id }}'">
+                <div class="lista-card" onclick="window.location.href='/npcs/{{ n.id }}'">
                     <img src="{{ n.imagen_url }}" alt="{{ n.nombre }}">
                     <p>{{ n.nombre }}</p>
                 </div>
@@ -43,9 +43,9 @@
 
         {% if ubicaciones %}
         <h2 class="subtitulo">Ubicaciones</h2>
-        <div class="lista-cards">
+        <div class="lista-grid">
             {% for u in ubicaciones %}
-                <div class="card-item" onclick="window.location.href='/ubicaciones/{{ u.id }}'">
+                <div class="lista-card" onclick="window.location.href='/ubicaciones/{{ u.id }}'">
                     <img src="{{ u.imagen_url }}" alt="{{ u.nombre }}">
                     <p>{{ u.nombre }}</p>
                 </div>
@@ -55,9 +55,9 @@
 
         {% if misiones %}
         <h2 class="subtitulo">Misiones</h2>
-        <div class="lista-cards">
+        <div class="lista-grid">
             {% for m in misiones %}
-                <div class="card-item" onclick="window.location.href='/misiones/{{ m.id }}'">
+                <div class="lista-card" onclick="window.location.href='/misiones/{{ m.id }}'">
                     <img src="https://azbsgiuhvkwmpeiwrwdd.supabase.co/storage/v1/object/public/npc_imagenes/public/mision_icon.png">
                     <p>{{ m.titulo }}</p>
                 </div>
@@ -67,16 +67,16 @@
 
         {% if items %}
         <h2 class="subtitulo">Ítems</h2>
-        <div class="lista-cards">
+        <div class="lista-grid">
             {% for i in items %}
-                <div class="card-item" onclick="window.location.href='/items/{{ i.id }}'">
+                <div class="lista-card" onclick="window.location.href='/items/{{ i.id }}'">
                     <img src="{{ i.imagen_url }}" alt="{{ i.nombre }}">
                     <p>{{ i.nombre }}</p>
                 </div>
             {% endfor %}
         </div>
         {% endif %}
-        </main>
+    </main>
 
     {% include "layout/footer.html" %}
 
