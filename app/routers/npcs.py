@@ -143,7 +143,7 @@ def listar_npcs_tipo(tipo: str, request: Request, db: Session = Depends(get_sess
     if tipo not in validos:
         return HTMLResponse("Tipo no válido", status_code=404)
 
-    npcs = db.query(NPC).filter(NPC.activo == True).all()
+    npcs = db.query(NPC).filter(NPC.tipo == tipo,NPC.activo == True).all()
 
     return templates.TemplateResponse("listas/npcs.html", {
         "request": request,
