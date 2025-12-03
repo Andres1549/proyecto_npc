@@ -6,6 +6,9 @@ from app.models import NPC, TipoNPC, Ubicacion
 from app.servicios.supabase_conexion import upload_file
 from fastapi.responses import HTMLResponse
 from app.utils.templates import templates
+from fastapi.templating import Jinja2Templates
+
+templates = Jinja2Templates(directory="app/templates")
 
 router = APIRouter()
 
@@ -17,13 +20,32 @@ def listar_npcs(
 ):
     return session.exec(select(NPC).where(NPC.activo == True).offset(skip).limit(limit)).all()
 
-@router.get("/{npc_id}", response_model=NPC)
-def obtener_npc(npc_id: int, session: Session = Depends(get_session)):
-    npc = session.get(NPC, npc_id)
-    if not npc or not npc.activo:
-        raise HTTPException(status_code=404, detail="NPC no encontrado o inactivo")
-    return npc
 
+@router.get("/{npc_id}")
+def detalle_npc(npc_id: int, request: Request, session: Session = Depends(get_session)):
+
+    npc = session.get(NPC, npc_id)
+    if not npc:
+        return {"error": "NPC no encontrado"}
+
+    items = []
+    misiones = []
+
+    if npc.tipo == "vendedor":
+        items = npc.items
+
+    if npc.tipo == "misiones":
+        misiones = npc.misiones
+
+    return templates.TemplateResponse(
+        "detalles/npc_detalle.html",
+        {
+            "request": request,
+            "npc": npc,
+            "items": items,
+            "misiones": misiones,
+        }
+    )
 @router.post("/", response_model=NPC, status_code=201)
 async def crear_npc(
     nombre: str = Form(...),

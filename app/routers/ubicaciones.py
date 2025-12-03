@@ -9,12 +9,22 @@ from app.utils.templates import templates
 
 router = APIRouter()
 
-@router.get("/{id}", response_model=Ubicacion)
-def obtener_ubicacion(id: int, session: Session = Depends(get_session)):
-    u = session.get(Ubicacion, id)
-    if not u or not u.activo:
-        raise HTTPException(status_code=404, detail="Ubicación no encontrada o inactiva")
-    return u
+@router.get("/{ubicacion_id}")
+def detalle_ubicacion(ubicacion_id: int, request: Request, session: Session = Depends(get_session)):
+    ubicacion = session.get(Ubicacion, ubicacion_id)
+    if not ubicacion:
+        return {"error": "Ubicación no encontrada"}
+
+    npc_list = ubicacion.npcs  # gracias al Relationship
+
+    return templates.TemplateResponse(
+        "detalles/ubicacion_detalle.html",
+        {
+            "request": request,
+            "ubicacion": ubicacion,
+            "npc_list": npc_list
+        }
+    )
 
 @router.post("/", response_model=Ubicacion, status_code=201)
 async def crear_ubicacion(

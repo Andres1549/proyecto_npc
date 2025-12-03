@@ -1,0 +1,34 @@
+{% extends "layout/base.html" %}
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/detalle.css">
+{% endblock %}
+{% block content %}
+
+<div class="detalle-container">
+
+    <div class="detalle-info">
+        <h1 class="detalle-titulo">{{ ubicacion.nombre }}</h1>
+
+        <p class="detalle-descripcion">{{ ubicacion.descripcion }}</p>
+
+        {% if npc_list %}
+        <h2 class="subtitulo">NPCs en esta ubicación</h2>
+        <div class="lista-secundaria">
+            {% for npc in npc_list %}
+                <div class="item-card" onclick="window.location.href='/npcs/{{ npc.id }}'">
+                    <img src="{{ npc.imagen_url }}" alt="{{ npc.nombre }}">
+                    <p>{{ npc.nombre }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+
+    <div class="detalle-imagen">
+        <img src="{{ ubicacion.imagen_url }}" alt="{{ ubicacion.nombre }}">
+    </div>
+
+</div>
+
+{% endblock %}

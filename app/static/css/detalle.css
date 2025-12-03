@@ -1,0 +1,60 @@
+.detalle-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 90%;
+    margin: 30px auto;
+    gap: 30px;
+}
+
+.detalle-info {
+    flex: 1;
+    max-width: 60%;
+}
+
+.detalle-titulo {
+    color: white;
+    font-family: "Cinzel", serif;
+    font-size: 36px;
+    margin: 0 0 15px 0;
+}
+
+.detalle-descripcion {
+    font-size: 18px;
+    color: #ddd;
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+.detalle-imagen img {
+    width: 350px;
+    height: auto;
+    border: 4px solid #340508;
+    border-radius: 6px;
+}
+
+/* Listas secundarias */
+.lista-secundaria {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.item-card {
+    width: 140px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.item-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border: 3px solid #340508;
+}
+
+.item-card p {
+    color: white;
+    font-family: "Cinzel", serif;
+    margin-top: 5px;
+}

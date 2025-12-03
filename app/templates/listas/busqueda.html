@@ -1,25 +1,12 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Resultados de Búsqueda | Wiki Silksong</title>
-    <link rel="icon" type="image/png" href="https://azbsgiuhvkwmpeiwrwdd.supabase.co/storage/v1/object/public/npc_imagenes/public/logo.png">
+{% extends "layout/base.html" %}
 
-    <link rel="stylesheet" href="/static/css/header.css">
-    <link rel="stylesheet" href="/static/css/footer.css">
-    <link rel="stylesheet" href="/static/css/listas.css">
-    
-    <style>
-        body {
-            background-color: #2f3a30;
-            min-height: 100vh;
-            margin: 0;
-        }
-    </style>
-</head>
-<body>
+{% block title %}Resultados para "{{ termino }}" | Wiki Silksong{% endblock %}
 
-    {% include "layout/header.html" %}
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/listas.css">
+{% endblock %}
+
+{% block content %}
 
     <main class="lista-contenedor">
 
@@ -78,7 +65,4 @@
         {% endif %}
     </main>
 
-    {% include "layout/footer.html" %}
-
-</body>
-</html>
+{% endblock %}
