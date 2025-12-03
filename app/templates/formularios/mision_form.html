@@ -10,7 +10,9 @@
 
     <h1 class="form-titulo">Crear Misión</h1>
 
-    <form method="post">
+    <form method="post" action="/misiones/crear">
+
+        <input type="hidden" name="npc_id" value="{{ npc_id }}">
 
         <label>Título</label>
         <input type="text" name="titulo" required>

@@ -5,10 +5,11 @@ from app.db import get_session
 from app.models import Mision, TipoMision, NPC
 from app.servicios.supabase_conexion import upload_file
 from app.utils.templates import templates
+from fastapi.responses import RedirectResponse
 
 router = APIRouter()
 @router.get("/crear")
-def form_crear_mision(request: Request, npc_id: int):
+def form_crear_mision(request: Request, npc_id: int = Query(...)):
     return templates.TemplateResponse("formularios/mision_form.html", {
         "request": request,
         "npc_id": npc_id
@@ -34,8 +35,9 @@ def crear_mision(
 
     session.add(m)
     session.commit()
+    session.refresh(m)
 
-    return {"mensaje": "Misión creada"}
+    return RedirectResponse(url=f"/npcs/{npc_id}", status_code=303)
 
 @router.get("/", response_model=List[Mision])
 def listar_misiones(session: Session = Depends(get_session), skip: int = Query(0), limit: int = Query(50)):
