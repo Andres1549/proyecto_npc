@@ -13,23 +13,27 @@ SUPABASE_BUCKET = os.getenv("SUPABASE_BUCKET")
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 async def upload_file(file: UploadFile) -> str:
-    if not file:
-        return None  # No hay archivo
-
     content = await file.read()
 
-    if not content:
-        return None  # Archivo vacío
+    ext = file.filename.split(".")[-1]
+    filename = f"public/{uuid.uuid4()}.{ext}"
 
-    filename = f"{uuid.uuid4()}_{file.filename}"
-
-    supabase.storage.from_(SUPABASE_BUCKET).upload(
+    res = supabase.storage.from_(SUPABASE_BUCKET).upload(
         path=filename,
         file=content,
-        file_options={"content-type": file.content_type, "upsert": True}
+        file_options={
+            "content-type": file.content_type
+        }
     )
 
-    url = f"{SUPABASE_URL}/storage/v1/object/public/{SUPABASE_BUCKET}/{filename}"
+    if getattr(res, "error", None):
+        supabase.storage.from_(SUPABASE_BUCKET).update(
+            path=filename,
+            file=content,
+            file_options={
+                "content-type": file.content_type
+            }
+        )
 
-    return url
-
+    public_url = supabase.storage.from_(SUPABASE_BUCKET).get_public_url(filename)
+    return public_url
