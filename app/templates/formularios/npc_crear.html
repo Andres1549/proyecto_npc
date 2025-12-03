@@ -1,23 +1,43 @@
 {% extends "layout/base.html" %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/formularios.css">
+{% endblock %}
+
 {% block content %}
 
-<link rel="stylesheet" href="/static/css/formularios.css">
+<div class="formulario-box">
+    <h1 class="form-titulo">Crear NPC</h1>
 
-<h1>Crear Ubicación</h1>
+    <form method="post" action="/npcs/" enctype="multipart/form-data">
 
-<form action="/ubicaciones/crear" method="post" enctype="multipart/form-data" class="form-card">
+        <label>Nombre</label>
+        <input type="text" name="nombre" required>
 
-    <label>Nombre:</label>
-    <input type="text" name="nombre" required>
+        <label>Descripción</label>
+        <textarea name="descripcion" required></textarea>
 
-    <label>Descripción:</label>
-    <textarea name="descripcion" required></textarea>
+        <label>Tipo</label>
+        <select name="tipo" required>
+            <option value="">Seleccione…</option>
+            <option value="historia">Historia</option>
+            <option value="vendedor">Vendedor</option>
+            <option value="misiones">Misiones</option>
+        </select>
 
-    <label>Imagen:</label>
-    <input type="file" name="imagen">
+        <label>Ubicación</label>
+        <select name="id_ubicacion" required>
+            <option value="">Seleccione...</option>
+            {% for u in ubicaciones %}
+                <option value="{{ u.id }}">{{ u.nombre }}</option>
+            {% endfor %}
+        </select>
 
-    <button type="submit" class="btn-enviar">Crear</button>
-</form>
+        <label>Imagen</label>
+        <input type="file" name="imagen" accept="image/*">
+
+        <button class="btn-form" type="submit">Crear</button>
+    </form>
+</div>
 
 {% endblock %}

@@ -57,21 +57,34 @@ def detalle_npc(npc_id: int, request: Request, session: Session = Depends(get_se
             "misiones": misiones,
         }
     )
-@router.post("/", response_model=NPC, status_code=201)
+
+@router.get("/crear", response_class=HTMLResponse)
+def form_crear_npc(request: Request, session: Session = Depends(get_session)):
+    ubicaciones = session.exec(select(Ubicacion).where(Ubicacion.activo == True)).all()
+
+    return templates.TemplateResponse(
+        "formularios/npc_crear.html",
+        {
+            "request": request,
+            "ubicaciones": ubicaciones
+        }
+    )
+
+@router.post("/", status_code=303)
 async def crear_npc(
-    nombre: str = Form(...),
-    descripcion: str = Form(...),
-    tipo: TipoNPC = Form(...),
-    id_ubicacion: int = Form(...),
-    imagen: UploadFile = File(None),
-    session: Session = Depends(get_session)
+        nombre: str = Form(...),
+        descripcion: str = Form(...),
+        tipo: TipoNPC = Form(...),
+        id_ubicacion: int = Form(...),
+        imagen: UploadFile = File(None),
+        session: Session = Depends(get_session)
 ):
     ubic = session.get(Ubicacion, id_ubicacion)
     if not ubic or not ubic.activo:
         raise HTTPException(status_code=400, detail="Ubicación inválida")
 
     imagen_url = None
-    if imagen:
+    if imagen and imagen.filename:
         imagen_url = await upload_file(imagen)
 
     npc = NPC(
@@ -84,7 +97,7 @@ async def crear_npc(
     session.add(npc)
     session.commit()
     session.refresh(npc)
-    return npc
+    return RedirectResponse(url=f"/npcs/{npc.id}", status_code=303)
 
 @router.post("/{id}/editar")
 async def actualizar_npc_form(

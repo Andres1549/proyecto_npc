@@ -1,20 +1,45 @@
 {% extends "layout/base.html" %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/listas.css">
+{% endblock %}
+
 {% block content %}
-<h1>Historial de Eliminados</h1>
 
-<h2>NPCs Eliminados</h2>
-<ul>
-    {% for npc in npcs %}
-        <li>{{ npc.nombre }} ({{ npc.tipo }})</li>
-    {% endfor %}
-</ul>
+<div class="lista-contenedor">
 
-<h2>Ubicaciones Eliminadas</h2>
-<ul>
-    {% for u in ubicaciones %}
-        <li>{{ u.nombre }}</li>
-    {% endfor %}
-</ul>
+    <h1 class="lista-titulo">Historial de Eliminados (Soft Delete)</h1>
+
+    <div class="historial-seccion">
+        <h2>NPCs Eliminados</h2>
+
+        <div class="lista-grid">
+            {% for npc in npcs %}
+                <div class="lista-card">
+                    <p>{{ npc.nombre }}</p>
+                    <p style="font-size: 0.8em; opacity: 0.7;">Tipo: {{ npc.tipo|capitalize }}</p>
+                </div>
+            {% else %}
+                <p>No hay NPCs eliminados.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <hr style="margin: 40px 0; border-color: #340508;">
+
+    <div class="historial-seccion">
+        <h2>Ubicaciones Eliminadas</h2>
+
+        <div class="lista-grid">
+            {% for u in ubicaciones %}
+                <div class="lista-card">
+                    <p>{{ u.nombre }}</p>
+                </div>
+            {% else %}
+                <p>No hay Ubicaciones eliminadas.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 
 {% endblock %}

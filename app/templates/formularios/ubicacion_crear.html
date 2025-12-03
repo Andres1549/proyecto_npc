@@ -1,23 +1,28 @@
 {% extends "layout/base.html" %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/formularios.css">
+{% endblock %}
+
 {% block content %}
 
-<link rel="stylesheet" href="/static/css/formularios.css">
+<div class="formulario-box">
 
-<h1>Crear Ubicación</h1>
+    <h1 class="form-titulo">Crear Ubicación</h1>
 
-<form action="/ubicaciones/crear" method="post" enctype="multipart/form-data" class="form-card">
+    <form action="/ubicaciones/" method="post" enctype="multipart/form-data">
 
-    <label>Nombre:</label>
-    <input type="text" name="nombre" required>
+        <label>Nombre:</label>
+        <input type="text" name="nombre" required>
 
-    <label>Descripción:</label>
-    <textarea name="descripcion" required></textarea>
+        <label>Descripción:</label>
+        <textarea name="descripcion" required></textarea>
 
-    <label>Imagen:</label>
-    <input type="file" name="imagen">
+        <label>Imagen:</label>
+        <input type="file" name="imagen" accept="image/*">
 
-    <button type="submit" class="btn-enviar">Crear</button>
-</form>
+        <button type="submit" class="btn-form">Crear</button>
+    </form>
+</div>
 
 {% endblock %}

@@ -25,13 +25,19 @@ def detalle_ubicacion(ubicacion_id: int, request: Request, session: Session = De
             "npc_list": npc_list
         }
     )
+@router.get("/crear", response_class=HTMLResponse)
+def form_crear_ubicacion(request: Request):
+    return templates.TemplateResponse("formularios/ubicacion_crear.html", {
+        "request": request
+    })
 
-@router.post("/", response_model=Ubicacion, status_code=201)
+
+@router.post("/", status_code=303)
 async def crear_ubicacion(
-    nombre: str = Form(...),
-    descripcion: str = Form(...),
-    imagen: UploadFile = File(None),
-    session: Session = Depends(get_session)
+        nombre: str = Form(...),
+        descripcion: str = Form(...),
+        imagen: UploadFile = File(None),
+        session: Session = Depends(get_session)
 ):
     imagen_url = None
     if imagen:
@@ -41,7 +47,7 @@ async def crear_ubicacion(
     session.add(u)
     session.commit()
     session.refresh(u)
-    return u
+    return RedirectResponse(url=f"/ubicaciones/{u.id}", status_code=303)
 
 @router.put("/{id}", response_model=Ubicacion)
 async def reemplazar_ubicacion(

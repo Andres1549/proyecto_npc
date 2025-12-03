@@ -19,7 +19,7 @@ def ver_historial(request: Request, session: Session = Depends(get_session)):
     ).all()
 
     return templates.TemplateResponse(
-        "historial.html",
+        "listas/historial.html",
         {
             "request": request,
             "npcs": npcs_inactivos,
