@@ -5,7 +5,7 @@ from app.db import get_session
 from app.models import Ubicacion
 from app.servicios.supabase_conexion import upload_file
 from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
+from app.utils.templates import templates
 
 router = APIRouter()
 

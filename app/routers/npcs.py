@@ -5,6 +5,7 @@ from app.db import get_session
 from app.models import NPC, TipoNPC, Ubicacion
 from app.servicios.supabase_conexion import upload_file
 from fastapi.responses import HTMLResponse
+from app.utils.templates import templates
 
 router = APIRouter()
 
