@@ -1,18 +1,41 @@
-{% include "layout/header.html" %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ubicaciones | Wiki Silksong</title>
+    <link rel="icon" type="image/png" href="https://azbsgiuhvkwmpeiwrwdd.supabase.co/storage/v1/object/public/npc_imagenes/public/logo.png">
 
-<main class="lista-contenedor">
+    <link rel="stylesheet" href="/static/css/header.css">
+    <link rel="stylesheet" href="/static/css/footer.css">
+    <link rel="stylesheet" href="/static/css/listas.css">
 
-    <h1 class="lista-titulo">Ubicaciones</h1>
+    <style>
+        body {
+            background-color: #2f3a30;
+            min-height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
 
-    <div class="lista-grid">
-        {% for u in ubicaciones %}
-        <div class="lista-card" onclick="window.location.href='/ubicaciones/{{ u.id }}'">
-            <img src="{{ u.imagen_url }}" alt="{{ u.nombre }}">
-            <p>{{ u.nombre }}</p>
+    {% include "layout/header.html" %}
+
+    <main class="lista-contenedor">
+
+        <h1 class="lista-titulo">Ubicaciones</h1>
+
+        <div class="lista-grid">
+            {% for u in ubicaciones %}
+            <div class="lista-card" onclick="window.location.href='/ubicaciones/{{ u.id }}'">
+                <img src="{{ u.imagen_url }}" alt="{{ u.nombre }}">
+                <p>{{ u.nombre }}</p>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
 
-</main>
+    </main>
 
-{% include "layout/footer.html" %}
+    {% include "layout/footer.html" %}
+</body>
+</html>
