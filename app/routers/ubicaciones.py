@@ -90,7 +90,7 @@ async def actualizar_ubicacion_form(
     if not u or not u.activo:
         raise HTTPException(status_code=404, detail="Ubicación no encontrada o inactiva")
 
-    if imagen:
+    if imagen and imagen.filename:
         u.imagen_url = await upload_file(imagen)
 
     u.nombre = nombre
