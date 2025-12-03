@@ -1,21 +1,37 @@
 {% extends "layout/base.html" %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/formularios.css">
+{% endblock %}
+
 {% block content %}
 
-<h1 class="form-titulo">Editar Ubicación</h1>
+<div class="formulario-box">
 
-<form method="post" enctype="multipart/form-data" class="formulario-box">
+    <h1 class="form-titulo">Editar Ubicación: {{ ubicacion.nombre }}</h1>
 
-    <label>Nombre</label>
-    <input name="nombre" value="{{ ubicacion.nombre }}">
+    <form action="/ubicaciones/{{ ubicacion.id }}" method="post" enctype="multipart/form-data">
 
-    <label>Descripción</label>
-    <textarea name="descripcion">{{ ubicacion.descripcion }}</textarea>
+        <label>Nombre</label>
+        <input type="text" name="nombre" value="{{ ubicacion.nombre }}" required>
 
-    <label>Imagen nueva (opcional)</label>
-    <input type="file" name="imagen">
+        <label>Descripción</label>
+        <textarea name="descripcion" required>{{ ubicacion.descripcion }}</textarea>
 
-    <button class="btn-form" type="submit">Guardar Cambios</button>
-</form>
+        <label>Imagen actual:</label>
+        {% if ubicacion.imagen_url %}
+        <img src="{{ ubicacion.imagen_url }}" class="preview-img">
+        {% else %}
+        <p>No hay imagen</p>
+        {% endif %}
+
+        <label>Imagen nueva (opcional)</label>
+        <input type="file" name="imagen" accept="image/*">
+
+        <button class="btn-form" type="submit">Guardar Cambios</button>
+    </form>
+
+</div>
+
 
 {% endblock %}
