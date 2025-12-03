@@ -130,10 +130,7 @@
     font-size: 14px;
     text-decoration: none;
 }
-.menu-inferior:hover {
-    transform: scale(1.05);
-    background-color: crimson;
-}
+
 html, body {
     width: 100%;
     max-width: 100%;

@@ -40,6 +40,17 @@
     height: 120px;
 }
 
+/* --- VISTA PREVIA DE IMAGEN AÑADIDA --- */
+.preview-img {
+    display: block;
+    max-width: 100%; : auto;
+    max-height: 200px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 3px solid #340508;
+    border-radius: 4px;
+    object-fit: contain;
+}
 /* ===== BOTONES DE ACCIÓN ===== */
 
 .btn-form {
