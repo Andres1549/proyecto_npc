@@ -10,7 +10,7 @@ from app.utils.templates import templates
 router = APIRouter()
 
 @router.get("/", response_model=List[Ubicacion])
-def listar_ubicaciones(session: Session = Depends(get_session), skip: int = Query(0), limit: int = Query(50)):
+def lista_ubicaciones(session: Session = Depends(get_session), skip: int = Query(0), limit: int = Query(50)):
     return session.exec(select(Ubicacion).where(Ubicacion.activo == True).offset(skip).limit(limit)).all()
 
 @router.get("/{id}", response_model=Ubicacion)

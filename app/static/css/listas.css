@@ -23,7 +23,7 @@
 }
 
 .lista-card {
-    background: #3a3f36;
+    background: #5E0D12;
     padding: 10px;
     border: 2px solid #340508;
     border-radius: 6px;
@@ -33,7 +33,7 @@
 
 .lista-card:hover {
     transform: scale(1.05);
-    background: #433;
+    background: #000000;
 }
 
 .lista-card img {
