@@ -1,9 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Query
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Query,Request
 from sqlmodel import Session, select
 from typing import List, Optional
 from app.db import get_session
 from app.models import Ubicacion
 from app.servicios.supabase_conexion import upload_file
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 router = APIRouter()
 
@@ -89,3 +91,11 @@ def eliminar_ubicacion(id: int, session: Session = Depends(get_session)):
     session.add(u)
     session.commit()
     return {"mensaje": "Ubicación marcada como inactiva"}
+
+@router.get("/", response_class=HTMLResponse)
+def listar_ubicaciones(request: Request, db: Session = Depends(get_session)):
+    ubicaciones = db.query(Ubicacion).filter(Ubicacion.activo == True).all()
+    return templates.TemplateResponse("listas/ubicaciones.html", {
+        "request": request,
+        "ubicaciones": ubicaciones
+    })

@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File, Form
+from fastapi import APIRouter, Depends, HTTPException, Query, UploadFile, File, Form,Request
 from sqlmodel import Session, select
 from typing import List, Optional
 from app.db import get_session
 from app.models import NPC, TipoNPC, Ubicacion
 from app.servicios.supabase_conexion import upload_file
+from fastapi.responses import HTMLResponse
 
 router = APIRouter()
 
@@ -125,3 +126,19 @@ def eliminar_npc(npc_id: int, session: Session = Depends(get_session)):
     session.add(npc_db)
     session.commit()
     return {"mensaje": f"NPC '{npc_db.nombre}' marcado como inactivo"}
+
+@router.get("/tipo/{tipo}", response_class=HTMLResponse)
+def listar_npcs_tipo(tipo: str, request: Request, db: Session = Depends(get_session)):
+    tipo = tipo.lower()
+
+    validos = ["historia", "misiones", "vendedor"]
+    if tipo not in validos:
+        return HTMLResponse("Tipo no válido", status_code=404)
+
+    npcs = db.query(NPC).filter(NPC.tipo == tipo).all()
+
+    return templates.TemplateResponse("listas/npcs.html", {
+        "request": request,
+        "npcs": npcs,
+        "titulo": tipo.upper()
+    })

@@ -1,0 +1,18 @@
+{% include "layout/header.html" %}
+
+<main class="lista-contenedor">
+
+    <h1 class="lista-titulo">{{ titulo }}</h1>
+
+    <div class="lista-grid">
+        {% for npc in npcs %}
+        <div class="lista-card" onclick="window.location.href='/npcs/{{ npc.id }}'">
+            <img src="{{ npc.imagen_url }}" alt="{{ npc.nombre }}">
+            <p>{{ npc.nombre }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</main>
+
+{% include "layout/footer.html" %}

@@ -1,0 +1,50 @@
+.lista-contenedor {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.lista-titulo {
+    background-color: #5E0D12;
+    color: white;
+    padding: 10px 20px;
+    border: 2px solid #340508;
+    font-size: 26px;
+    font-family: "Cinzel", serif;
+    width: fit-content;
+    margin: 0 auto 30px auto;
+}
+
+.lista-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 25px;
+}
+
+.lista-card {
+    background: #3a3f36;
+    padding: 10px;
+    border: 2px solid #340508;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.lista-card:hover {
+    transform: scale(1.05);
+    background: #433;
+}
+
+.lista-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border: 2px solid #5E0D12;
+}
+
+.lista-card p {
+    margin-top: 8px;
+    color: white;
+    font-family: "Cinzel", serif;
+}

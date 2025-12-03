@@ -1,0 +1,18 @@
+{% include "layout/header.html" %}
+
+<main class="lista-contenedor">
+
+    <h1 class="lista-titulo">Ubicaciones</h1>
+
+    <div class="lista-grid">
+        {% for u in ubicaciones %}
+        <div class="lista-card" onclick="window.location.href='/ubicaciones/{{ u.id }}'">
+            <img src="{{ u.imagen_url }}" alt="{{ u.nombre }}">
+            <p>{{ u.nombre }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</main>
+
+{% include "layout/footer.html" %}
