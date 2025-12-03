@@ -7,18 +7,6 @@ from app.servicios.supabase_conexion import upload_file
 from app.utils.templates import templates
 
 router = APIRouter()
-
-@router.get("/", response_model=List[Mision])
-def listar_misiones(session: Session = Depends(get_session), skip: int = Query(0), limit: int = Query(50)):
-    return session.exec(select(Mision).where(Mision.activo == True).offset(skip).limit(limit)).all()
-
-@router.get("/{id}", response_model=Mision)
-def obtener_mision(id: int, session: Session = Depends(get_session)):
-    m = session.get(Mision, id)
-    if not m or not m.activo:
-        raise HTTPException(status_code=404, detail="Misión no encontrada o inactiva")
-    return m
-
 @router.get("/crear")
 def form_crear_mision(request: Request, npc_id: int):
     return templates.TemplateResponse("formularios/mision_form.html", {
@@ -48,6 +36,17 @@ def crear_mision(
     session.commit()
 
     return {"mensaje": "Misión creada"}
+
+@router.get("/", response_model=List[Mision])
+def listar_misiones(session: Session = Depends(get_session), skip: int = Query(0), limit: int = Query(50)):
+    return session.exec(select(Mision).where(Mision.activo == True).offset(skip).limit(limit)).all()
+
+@router.get("/{id}", response_model=Mision)
+def obtener_mision(id: int, session: Session = Depends(get_session)):
+    m = session.get(Mision, id)
+    if not m or not m.activo:
+        raise HTTPException(status_code=404, detail="Misión no encontrada o inactiva")
+    return m
 
 
 @router.put("/{id}", response_model=Mision)

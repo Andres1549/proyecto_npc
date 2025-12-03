@@ -10,14 +10,6 @@ from fastapi.responses import RedirectResponse
 router = APIRouter(prefix="/items", tags=["Items"])
 
 templates = Jinja2Templates(directory="app/templates")
-
-@router.get("/", response_model=List[Item])
-def listar_items(session: Session = Depends(get_session), skip: int = Query(0), limit: int = Query(10)):
-    return session.exec(
-        select(Item).where(Item.activo == True).offset(skip).limit(limit)
-    ).all()
-
-
 @router.get("/crear")
 def form_crear_item(request: Request, npc_id: int = Query(...)):
     return templates.TemplateResponse(
@@ -59,6 +51,13 @@ async def crear_item(
     session.commit()
 
     return RedirectResponse(url=f"/npcs/{npc_id}", status_code=303)
+
+
+@router.get("/", response_model=List[Item])
+def listar_items(session: Session = Depends(get_session), skip: int = Query(0), limit: int = Query(10)):
+    return session.exec(
+        select(Item).where(Item.activo == True).offset(skip).limit(limit)
+    ).all()
 
 
 
