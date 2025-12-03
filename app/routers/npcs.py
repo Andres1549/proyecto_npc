@@ -7,6 +7,8 @@ from app.servicios.supabase_conexion import upload_file
 from fastapi.responses import HTMLResponse
 from app.utils.templates import templates
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
+
 
 templates = Jinja2Templates(directory="app/templates")
 
@@ -118,7 +120,28 @@ async def actualizar_npc_form(
 
     return RedirectResponse(url=f"/npcs/{id}", status_code=303)
 
-@router.post("/{id}/borrar")
+@router.get("/{id}/eliminar")
+def confirmar_borrar_npc(
+    id: int,
+    request: Request,
+    session: Session = Depends(get_session)
+):
+    npc = session.get(NPC, id)
+    if not npc:
+        raise HTTPException(status_code=404, detail="NPC no encontrado")
+
+    return templates.TemplateResponse(
+        "formularios/eliminar_confirmacion.html",
+        {
+            "request": request,
+            "titulo": "Eliminar NPC",
+            "nombre": npc.nombre,
+            "url": f"/npcs/{id}/eliminar",
+            "volver": f"/npcs/{id}"
+        }
+    )
+
+@router.post("/{id}/eliminar")
 def borrar_npc(id: int, session: Session = Depends(get_session)):
     npc = session.get(NPC, id)
     if not npc:
@@ -128,7 +151,8 @@ def borrar_npc(id: int, session: Session = Depends(get_session)):
     session.add(npc)
     session.commit()
 
-    return RedirectResponse("/", status_code=303)
+    return RedirectResponse("/npcs", status_code=303)
+
 
 
 @router.get("/tipo/{tipo}", response_class=HTMLResponse)

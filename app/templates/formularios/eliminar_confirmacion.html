@@ -1,0 +1,22 @@
+{% extends "layout/base.html" %}
+
+{% include "layout/header.html" %}
+
+<div class="form-contenedor">
+    <h2 class="form-titulo">{{ titulo }}</h2>
+
+    <p class="form-texto">
+        ¿Estás seguro de que deseas eliminar <strong>{{ nombre }}</strong>?
+        <br>Esta acción es reversible (soft delete).
+    </p>
+
+    <form method="post" action="{{ url }}">
+        <button type="submit" class="btn-eliminar">Eliminar</button>
+        <a href="{{ volver }}" class="btn-cancelar">Cancelar</a>
+    </form>
+</div>
+
+{% include "layout/footer.html" %}
+
+</body>
+</html>

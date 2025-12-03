@@ -112,7 +112,7 @@ def confirmar_eliminar_ubicacion(
     if not u:
         raise HTTPException(status_code=404, detail="Ubicación no encontrada")
 
-    return templates.TemplateResponse("formularios/ubicacion_eliminar.html", {
+    return templates.TemplateResponse("formularios/eliminar_confirmacion.html", {
         "request": request,
         "ubicacion": u,
     })
