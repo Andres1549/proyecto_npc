@@ -1,9 +1,14 @@
 {% extends "layout/base.html" %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/formularios.css">
+{% endblock %}
+
 {% block content %}
 
-<div class="form-contenedor">
-    <h2 class="form-titulo">{{ titulo }}</h2>
+<div class="formulario-box">
+
+    <h1 class="form-titulo">Confirmar Eliminación: {{ titulo }}</h1>
 
     <p class="form-texto">
         ¿Estás seguro de que deseas eliminar <strong>{{ nombre }}</strong>?
@@ -11,8 +16,10 @@
     </p>
 
     <form method="post" action="{{ url }}">
-        <button type="submit" class="btn-eliminar">Eliminar</button>
-        <a href="{{ volver }}" class="btn-cancelar">Cancelar</a>
+
+        <button type="submit" class="btn-form danger">Eliminar</button>
+
+        <a href="{{ volver }}" class="btn-form">Cancelar</a>
     </form>
 </div>
 
