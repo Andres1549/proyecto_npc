@@ -23,12 +23,13 @@
 }
 
 .lista-card {
-    background: black;
-    padding: 10px;
-    border: 2px solid #340508;
+    background: #5E0D12;
+    border: 3px solid #340508;
+
     border-radius: 6px;
     cursor: pointer;
     transition: 0.2s;
+    padding: 10px;
 }
 
 .lista-card:hover {

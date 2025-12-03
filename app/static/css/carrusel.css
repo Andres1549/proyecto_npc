@@ -96,9 +96,10 @@
 }
 
 .card:hover {
-    transform: none;
-}
 
+    transform: scale(1.05);
+    background-color: crimson;
+}
 
 /* Imagen dentro de la card  */
 .card img {
