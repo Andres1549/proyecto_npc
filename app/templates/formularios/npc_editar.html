@@ -1,12 +1,18 @@
-{% include "layout/header.html" %}
+{% extends "layout/base.html" %}
 
+ Wiki Silksong
+
+{% block extra_css %}
 <link rel="stylesheet" href="/static/css/formularios.css">
+{% endblock %}
 
-<main class="form-container">
+{% block content %}
 
-    <h2>Editar NPC</h2>
+<div class="formulario-box">
 
-<form action="/npcs/{{ npc.id }}/editar" method="post" enctype="multipart/form-data">
+    <h1 class="form-titulo">Editar NPC</h1>
+
+    <form action="/npcs/{{ npc.id }}/editar" method="post" enctype="multipart/form-data">
 
         <label>Nombre</label>
         <input type="text" name="nombre" value="{{ npc.nombre }}" required>
@@ -40,13 +46,15 @@
         <label>Nueva imagen (opcional)</label>
         <input type="file" name="imagen" accept="image/*">
 
-        <button type="submit" class="btn-guardar">Guardar cambios</button>
+        <button type="submit" class="btn-form">Guardar cambios</button>
     </form>
 
     <form action="/npcs/{{ npc.id }}/borrar" method="post" class="form-borrar">
-        <button type="submit" class="btn-borrar">Borrar NPC</button>
+        <button type="submit" class="btn-form danger" onclick="return confirm('¿Estás seguro de que quieres borrar este NPC?');">
+            Borrar NPC
+        </button>
     </form>
 
-</main>
+</div>
 
-{% include "layout/footer.html" %}
+{% endblock %}
