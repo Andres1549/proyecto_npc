@@ -1,0 +1,27 @@
+{% extends "layout/base.html" %}
+{% block content %}
+
+<h1 class="form-titulo">Crear Misión</h1>
+
+<form method="post" class="formulario">
+
+    <label>Título</label>
+    <input name="titulo" required>
+
+    <label>Descripción</label>
+    <textarea name="descripcion" required></textarea>
+
+    <label>Recompensa</label>
+    <input name="recompensa" required>
+
+    <label>Tipo</label>
+    <select name="tipo">
+        <option value="principal">Principal</option>
+        <option value="secundaria">Secundaria</option>
+    </select>
+
+    <button class="btn-accion" type="submit">Crear</button>
+
+</form>
+
+{% endblock %}

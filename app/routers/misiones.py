@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Query
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Query,Request
 from sqlmodel import Session, select
 from typing import List, Optional
 from app.db import get_session
 from app.models import Mision, TipoMision, NPC
 from app.servicios.supabase_conexion import upload_file
+from app.utils.templates import templates
 
 router = APIRouter()
 
@@ -18,36 +19,36 @@ def obtener_mision(id: int, session: Session = Depends(get_session)):
         raise HTTPException(status_code=404, detail="Misión no encontrada o inactiva")
     return m
 
-@router.post("/", response_model=Mision, status_code=201)
-async def crear_mision(
+@router.get("/crear")
+def form_crear_mision(request: Request, npc_id: int):
+    return templates.TemplateResponse("formularios/mision_form.html", {
+        "request": request,
+        "npc_id": npc_id
+    })
+
+@router.post("/crear")
+def crear_mision(
+    request: Request,
+    npc_id: int = Form(...),
     titulo: str = Form(...),
     descripcion: str = Form(...),
     recompensa: str = Form(...),
-    tipo: TipoMision = Form(...),
-    id_npc: int = Form(...),
-    imagen: UploadFile = File(None),
+    tipo: str = Form(...),
     session: Session = Depends(get_session)
 ):
-    npc = session.get(NPC, id_npc)
-    if not npc or not npc.activo:
-        raise HTTPException(status_code=400, detail="NPC que entrega la misión no existe o está inactivo")
-
-    imagen_url = None
-    if imagen:
-        imagen_url = await upload_file(imagen)
-
     m = Mision(
         titulo=titulo,
         descripcion=descripcion,
         recompensa=recompensa,
         tipo=tipo,
-        id_npc=id_npc,
-        imagen_url=imagen_url
+        id_npc=npc_id
     )
+
     session.add(m)
     session.commit()
-    session.refresh(m)
-    return m
+
+    return {"mensaje": "Misión creada"}
+
 
 @router.put("/{id}", response_model=Mision)
 async def reemplazar_mision(
