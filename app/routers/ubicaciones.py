@@ -6,7 +6,7 @@ from app.models import Ubicacion
 from app.servicios.supabase_conexion import upload_file
 from fastapi.responses import HTMLResponse
 from app.utils.templates import templates
-
+from fastapi.responses import RedirectResponse
 router = APIRouter()
 
 @router.get("/{ubicacion_id}")
@@ -63,18 +63,33 @@ async def reemplazar_ubicacion(
     session.commit()
     session.refresh(u)
     return u
-
-@router.patch("/{id}", response_model=Ubicacion)
-async def actualizar_ubicacion(
+@router.get("/{id}/editar")
+def form_editar_ubicacion(
+    request: Request,
     id: int,
-    nombre: Optional[str] = Form(None),
-    descripcion: Optional[str] = Form(None),
-    imagen: UploadFile = File(None),
     session: Session = Depends(get_session)
 ):
     u = session.get(Ubicacion, id)
     if not u or not u.activo:
-        raise HTTPException(status_code=404, detail="Ubicación no encontrada o inactiva")
+        raise HTTPException(status_code=404, detail="Ubicación no encontrada")
+
+    return templates.TemplateResponse("formularios/ubicacion_editar.html", {
+        "request": request,
+        "ubicacion": u
+    })
+
+@router.post("/{id}/editar")
+async def actualizar_ubicacion_form(
+    id: int,
+    nombre: str = Form(None),
+    descripcion: str = Form(None),
+    imagen: UploadFile = File(None),
+    session: Session = Depends(get_session)
+):
+    # Llamamos tu mismo PATCH interno
+    u = session.get(Ubicacion, id)
+    if not u or not u.activo:
+        raise HTTPException(status_code=404, detail="Ubicación no encontrada")
 
     if imagen:
         u.imagen_url = await upload_file(imagen)
@@ -85,18 +100,40 @@ async def actualizar_ubicacion(
 
     session.add(u)
     session.commit()
-    session.refresh(u)
-    return u
 
-@router.delete("/{id}")
-def eliminar_ubicacion(id: int, session: Session = Depends(get_session)):
+    return RedirectResponse(url=f"/ubicaciones/{id}", status_code=303)
+
+@router.get("/{id}/eliminar")
+def confirmar_eliminar_ubicacion(
+    request: Request,
+    id: int,
+    session: Session = Depends(get_session)
+):
     u = session.get(Ubicacion, id)
     if not u:
         raise HTTPException(status_code=404, detail="Ubicación no encontrada")
+
+    return templates.TemplateResponse("formularios/ubicacion_eliminar.html", {
+        "request": request,
+        "ubicacion": u,
+    })
+
+@router.post("/{id}/eliminar")
+def eliminar_ubicacion_form(
+    id: int,
+    session: Session = Depends(get_session)
+):
+    u = session.get(Ubicacion, id)
+    if not u:
+        raise HTTPException(status_code=404, detail="Ubicación no encontrada")
+
     u.activo = False
+
     session.add(u)
     session.commit()
-    return {"mensaje": "Ubicación marcada como inactiva"}
+
+    return RedirectResponse(url="/ubicaciones", status_code=303)
+
 
 @router.get("/", response_class=HTMLResponse)
 def listar_ubicaciones(request: Request, db: Session = Depends(get_session)):

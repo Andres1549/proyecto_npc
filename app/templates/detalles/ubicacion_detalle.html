@@ -10,6 +10,17 @@
         <h1 class="detalle-titulo">{{ ubicacion.nombre }}</h1>
 
         <p class="detalle-descripcion">{{ ubicacion.descripcion }}</p>
+<div class="acciones-ubicacion">
+
+    <button class="btn-form" onclick="window.location.href='/ubicaciones/{{ ubicacion.id }}/editar'">
+        ⚙ Ajustar Ubicación
+    </button>
+
+    <button class="btn-form danger" onclick="window.location.href='/ubicaciones/{{ ubicacion.id }}/eliminar'">
+        🗑 Borrar Ubicación
+    </button>
+
+</div>
 
         {% if npc_list %}
         <h2 class="subtitulo">NPCs en esta ubicación</h2>

@@ -1,0 +1,21 @@
+{% extends "layout/base.html" %}
+
+{% block content %}
+
+<h1 class="form-titulo">Editar Ubicación</h1>
+
+<form method="post" enctype="multipart/form-data" class="formulario-box">
+
+    <label>Nombre</label>
+    <input name="nombre" value="{{ ubicacion.nombre }}">
+
+    <label>Descripción</label>
+    <textarea name="descripcion">{{ ubicacion.descripcion }}</textarea>
+
+    <label>Imagen nueva (opcional)</label>
+    <input type="file" name="imagen">
+
+    <button class="btn-form" type="submit">Guardar Cambios</button>
+</form>
+
+{% endblock %}

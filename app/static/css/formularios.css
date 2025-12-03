@@ -1,0 +1,76 @@
+.form-titulo {
+    font-family: "Cinzel", serif;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.formulario-box {
+    background: #3a463a;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 2px solid #1e271e;
+}
+
+.formulario-box label {
+    display: block;
+    margin-top: 15px;
+    font-family: "Cinzel", serif;
+    color: #eed;
+    font-size: 16px;
+}
+
+.formulario-box input,
+.formulario-box textarea,
+.formulario-box select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    background: #232b23;
+    border: 2px solid #340508;
+    border-radius: 5px;
+    color: white;
+    font-family: "Cinzel", serif;
+}
+
+.formulario-box textarea {
+    height: 120px;
+}
+
+/* ===== BOTONES DE ACCIÓN ===== */
+
+.btn-form {
+    background-color: #5E0D12;
+    border: 2px solid #340508;
+    color: white;
+    padding: 10px 18px;
+    cursor: pointer;
+    font-family: "Cinzel", serif;
+    border-radius: 6px;
+    font-size: 16px;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.btn-form:hover {
+    background-color: #340508;
+}
+
+.btn-form.danger {
+    background-color: #7a0000;
+    border-color: #4d0000;
+}
+
+.btn-form.danger:hover {
+    background-color: #4d0000;
+}
+
+/* Botones de detalle */
+.acciones-ubicacion {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+}
