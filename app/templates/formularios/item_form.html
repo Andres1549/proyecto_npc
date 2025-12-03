@@ -1,0 +1,31 @@
+{% extends "layout/base.html" %}
+{% block content %}
+
+<h1 class="form-titulo">Crear Objeto</h1>
+
+<form method="post" enctype="multipart/form-data" class="formulario">
+    
+    <label>Nombre</label>
+    <input name="nombre" required>
+
+    <label>Descripción</label>
+    <textarea name="descripcion" required></textarea>
+
+    <label>Precio</label>
+    <input type="number" name="precio" required>
+
+    <label>Tipo</label>
+    <select name="tipo" required>
+        <option value="herramienta">Herramienta</option>
+        <option value="material">Material</option>
+        <option value="mejora">Mejora</option>
+    </select>
+
+    <label>Imagen</label>
+    <input type="file" name="imagen">
+
+    <button class="btn-accion" type="submit">Crear</button>
+
+</form>
+
+{% endblock %}

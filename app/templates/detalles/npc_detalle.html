@@ -14,6 +14,28 @@
         <p class="detalle-descripcion">
             {{ npc.descripcion }}
         </p>
+        <div class="acciones-npc">
+            <button class="btn-accion" onclick="window.location.href='/npcs/{{ npc.id }}/editar'">
+                ⚙ Ajustar NPC
+            </button>
+
+            <button class="btn-accion btn-danger" onclick="window.location.href='/npcs/{{ npc.id }}/eliminar'">
+                🗑 Borrar NPC
+             </button>
+
+            {% if npc.tipo == "vendedor" %}
+                 <button class="btn-accion" onclick="window.location.href='/items/crear?npc_id={{ npc.id }}'">
+                    ➕ Añadir Objeto
+                 </button>
+            {% endif %}
+
+            {% if npc.tipo == "misiones" %}
+                <button class="btn-accion" onclick="window.location.href='/misiones/crear?npc_id={{ npc.id }}'">
+                    ➕ Añadir Misión
+                </button>
+            {% endif %}
+
+        </div>
 
         {% if npc.tipo == "vendedor" and items %}
         <h2 class="subtitulo">Ítems que vende</h2>

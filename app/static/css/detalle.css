@@ -77,3 +77,30 @@ background-color: #5E0D12;
     font-family: "Cinzel", serif;
     margin-top: 5px;
 }
+
+.acciones-npc {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn-accion {
+    background-color: #5E0D12;
+    border: 2px solid #340508;
+    color: white;
+    padding: 8px 15px;
+    font-family: "Cinzel", serif;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.btn-accion:hover {
+    background-color: #340508;
+}
+
+.btn-danger {
+    background-color: darkred !important;
+    border-color: #5a0000 !important;
+}

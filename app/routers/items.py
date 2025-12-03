@@ -1,49 +1,59 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Query
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Query, Request
 from sqlmodel import Session, select
 from typing import List, Optional
 from app.db import get_session
-from app.models import Item, TipoItem
+from app.models import Item, TipoItem, NPC
 from app.servicios.supabase_conexion import upload_file
-
+from fastapi.templating import Jinja2Templates
 router = APIRouter()
 
 @router.get("/", response_model=List[Item])
 def listar_items(session: Session = Depends(get_session), skip: int = Query(0), limit: int = Query(10)):
     return session.exec(select(Item).where(Item.activo == True).offset(skip).limit(limit)).all()
 
-@router.get("/{id}", response_model=Item)
-def obtener_item(id: int, session: Session = Depends(get_session)):
-    item = session.get(Item, id)
-    if not item or not item.activo:
-        raise HTTPException(status_code=404, detail="Item no encontrado o inactivo")
-    return item
+templates = Jinja2Templates(directory="app/templates")
 
-@router.post("/", response_model=Item, status_code=201)
+
+@router.get("/crear")
+def form_crear_item(request: Request, npc_id: int):
+    return templates.TemplateResponse("formularios/item_form.html", {
+        "request": request,
+        "npc_id": npc_id
+    })
+
+
+@router.post("/crear")
 async def crear_item(
-    nombre: str = Form(...),
-    descripcion: str = Form(...),
-    precio: int = Form(...),
-    usa_metal_artesano: bool = Form(False),
-    tipo: TipoItem = Form(...),
-    imagen: UploadFile = File(None),
-    session: Session = Depends(get_session)
+        request: Request,
+        npc_id: int = Form(...),
+        nombre: str = Form(...),
+        descripcion: str = Form(...),
+        precio: int = Form(...),
+        tipo: str = Form(...),
+        imagen: UploadFile = None,
+        session: Session = Depends(get_session)
 ):
-    imagen_url = None
+    img_url = None
     if imagen:
-        imagen_url = await upload_file(imagen)
+        img_url = await upload_file(imagen)
 
     item = Item(
         nombre=nombre,
         descripcion=descripcion,
         precio=precio,
-        usa_metal_artesano=usa_metal_artesano,
         tipo=tipo,
-        imagen_url=imagen_url
+        imagen_url=img_url
     )
+
     session.add(item)
     session.commit()
-    session.refresh(item)
-    return item
+
+    npc = session.get(NPC, npc_id)
+    npc.items.append(item)
+    session.add(npc)
+    session.commit()
+
+    return {"mensaje": "Item creado"}
 
 @router.put("/{id}", response_model=Item)
 async def reemplazar_item(
