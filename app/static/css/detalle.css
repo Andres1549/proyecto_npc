@@ -35,6 +35,7 @@ background-color: #5E0D12;
 }
 
 .detalle-imagen img {
+    background: black;
     width: 350px;
     height: auto;
     border: 4px solid #340508;
@@ -52,8 +53,8 @@ background-color: #5E0D12;
     width: 140px;
     text-align: center;
     cursor: pointer;
-    background: black;
-    border: 3px solid #5E0D12;
+    background: #5E0D12;
+    border: 3px solid #340508;
     border-radius: 4px;
     transition: 0.3s ease-in-out;
 }
@@ -64,6 +65,7 @@ background-color: #5E0D12;
 }
 
 .item-card img {
+    background: black;
     width: 120px;
     height: 120px;
     object-fit: cover;
