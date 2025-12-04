@@ -3,7 +3,7 @@
 
 **Autor:** Andres Basto  
 **Proyecto:** Wiki Silksong NPC  
-**Descripción:** Backend desarrollado con FastAPI + SQLModel que gestiona NPCs, Items, Misiones y Ubicaciones del mundo de Silksong. Incluye vistas HTML, búsquedas, subida de imágenes a Supabase.
+**Descripción:** Backend desarrollado con FastAPI + SQLModel que gestiona NPCs, Items, Misiones y Ubicaciones del mundo de Silksong. Incluye vistas HTML, búsquedas, subida de imágenes a Supabase y despiegue en render en el link:https://wiki-silksong.onrender.com/.
 
 ---
 
@@ -46,8 +46,6 @@
 ---
 
 ##  Diagrama de Clases
-
-El archivo `class_diagram.png` incluido en este ZIP contiene el siguiente diagrama visual:
 
 ```
 NPC 1---N Mision
