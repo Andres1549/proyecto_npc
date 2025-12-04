@@ -25,6 +25,7 @@ async def crear_item(
     descripcion: str = Form(...),
     precio: int = Form(...),
     tipo: TipoItem = Form(...),
+    usa_metal_artesano: bool = Form(...),
     imagen: UploadFile = File(None),
     session: Session = Depends(get_session)
 ):
@@ -36,7 +37,7 @@ async def crear_item(
         nombre=nombre,
         descripcion=descripcion,
         precio=precio,
-        usa_metal_artesano=False,
+        usa_metal_artesano=usa_metal_artesano,
         tipo=tipo,
         imagen_url=imagen_url
     )
