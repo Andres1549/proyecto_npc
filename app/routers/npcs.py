@@ -161,10 +161,10 @@ def detalle_npc(npc_id: int, request: Request, session: Session = Depends(get_se
     misiones = []
 
     if npc.tipo == "vendedor":
-        items = npc.items
+        items = [item for item in npc.items if item.activo]
 
     if npc.tipo == "misiones":
-        misiones = npc.misiones
+        misiones = [mision for mision in npc.misiones if mision.activo]
 
     return templates.TemplateResponse(
         "detalles/npc_detalle.html",
