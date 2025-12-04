@@ -12,10 +12,6 @@ router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
 
 
-@router.get("/", response_model=List[Item])
-def listar_items(session: Session = Depends(get_session), skip: int = 0, limit: int = 50):
-    return session.exec(select(Item).where(Item.activo == True).offset(skip).limit(limit)).all()
-
 
 @router.get("/crear")
 def form_crear_item(request: Request, npc_id: int = Form(None) or None):
