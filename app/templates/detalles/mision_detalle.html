@@ -5,36 +5,38 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="detalle-container">
-    
-    <div class="detalle-header">
+
+    <div class="detalle-info">
         <h1 class="detalle-titulo">{{ mision.titulo }}</h1>
-        <p class="detalle-tipo mision-tipo">{{ mision.tipo.value.upper() }}</p>
-    </div>
 
-    <div class="detalle-cuerpo">
+        <p class="subtitulo mision-tipo">{{ mision.tipo.value.upper() }}</p>
 
-        <div class="detalle-info">
-            <h2 class="detalle-subtitulo">Descripción de la Tarea</h2>
-            <p class="detalle-descripcion">{{ mision.descripcion }}</p>
+        <h2 class="subtitulo">Descripción de la Tarea</h2>
+        <p class="detalle-descripcion">
+            {{ mision.descripcion }}
+        </p>
 
-            <h2 class="detalle-subtitulo recompensa-titulo">Recompensa</h2>
-            <p class="detalle-recompensa">{{ mision.recompensa }}</p>
+        <h2 class="subtitulo recompensa-titulo">Recompensa</h2>
+        <p class="detalle-descripcion">{{ mision.recompensa }}</p>
 
-            <!-- Enlace al NPC que ofrece la misión -->
-            {% if mision.npc %}
-                <div class="atributo-item npc-info">
-                    <span class="etiqueta">Ofrecida por:</span>
+        {% if mision.npc %}
+            <h2 class="subtitulo">Ofrecida por</h2>
+            <p class="detalle-descripcion">
+                <a href="/npcs/{{ mision.npc.id }}" class="valor npc-link">{{ mision.npc.nombre }}</a>
+            </p>
+        {% endif %}
 
-                    <a href="/npcs/{{ mision.npc.id }}" class="valor npc-link">{{ mision.npc.nombre }}</a>
-                </div>
-            {% endif %}
-
-            <div class="detalle-acciones">
-                <a href="/misiones/{{ mision.id }}/editar" class="btn-editar">Editar Misión</a>
-                <a href="/misiones/{{ mision.id }}/eliminar" class="btn-eliminar">Eliminar Misión</a>
-            </div>
+        <div class="acciones-npc">
+            <button class="btn-accion" onclick="window.location.href='/misiones/{{ mision.id }}/editar'">
+                ⚙ Editar Misión
+            </button>
+            <button class="btn-accion btn-danger" onclick="window.location.href='/misiones/{{ mision.id }}/eliminar'">
+                🗑 Eliminar Misión
+            </button>
         </div>
     </div>
 </div>
+
 {% endblock %}

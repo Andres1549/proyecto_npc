@@ -17,7 +17,7 @@ def ver_historial(request: Request, session: Session = Depends(get_session)):
     items_inactivos = session.exec(select(Item).where(Item.activo == False)).all()
     misiones_inactivas = session.exec(select(Mision).where(Mision.activo == False)).all()
 
-    return templates.TemplateResponse("historial.html", {
+    return templates.TemplateResponse("listas/historial.html", {
         "request": request,
         "npcs": npcs_inactivos,
         "ubicaciones": ubicaciones_inactivas,
