@@ -15,7 +15,6 @@ templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/crear")
 def form_crear_item(request: Request, npc_id: int = Form(None) or None):
-    # si npc_id proviene de query: Query(...), en html usaremos ?npc_id=ID
     return templates.TemplateResponse("formularios/item_form.html", {"request": request, "npc_id": npc_id})
 
 
@@ -56,12 +55,6 @@ async def crear_item(
     return RedirectResponse(url=f"/npcs/{npc_id}" if npc_id else "/items", status_code=303)
 
 
-@router.get("/{id}", response_model=Item)
-def detalle_item(id: int, request: Request, session: Session = Depends(get_session)):
-    item = session.get(Item, id)
-    if not item:
-        raise HTTPException(status_code=404, detail="Item no encontrado")
-    return templates.TemplateResponse("detalles/item_detalle.html", {"request": request, "item": item})
 
 
 @router.get("/{id}/editar")
@@ -123,3 +116,9 @@ def eliminar_item_confirmado(id: int, session: Session = Depends(get_session)):
     session.commit()
 
     return RedirectResponse(url="/", status_code=303)
+@router.get("/{id}", response_model=Item)
+def detalle_item(id: int, request: Request, session: Session = Depends(get_session)):
+    item = session.get(Item, id)
+    if not item:
+        raise HTTPException(status_code=404, detail="Item no encontrado")
+    return templates.TemplateResponse("detalles/item_detalle.html", {"request": request, "item": item})
