@@ -54,7 +54,6 @@
         <div class="lista-secundaria">
             {% for m in misiones %}
                 <div class="item-card" onclick="window.location.href='/misiones/{{ m.id }}'">
-                    <img src="https://azbsgiuhvkwmpeiwrwdd.supabase.co/storage/v1/object/public/npc_imagenes/public/mision_icon.png">
                     <p>{{ m.titulo }}</p>
                 </div>
             {% endfor %}
