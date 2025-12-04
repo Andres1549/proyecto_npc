@@ -57,8 +57,17 @@ def form_editar_mision(id: int, request: Request, session: Session = Depends(get
     m = session.get(Mision, id)
     if not m:
         raise HTTPException(status_code=404, detail="Misión no encontrada")
-    return templates.TemplateResponse("formularios/mision_editar.html", {"request": request, "mision": m})
 
+    npcs = session.exec(select(NPC).where(NPC.activo == True,NPC.tipo == "misiones")).all()
+
+    return templates.TemplateResponse(
+        "formularios/mision_editar.html",
+        {
+            "request": request,
+            "mision": m,
+            "npcs": npcs
+        }
+    )
 
 @router.post("/{id}/editar")
 def actualizar_mision_form(
@@ -67,6 +76,7 @@ def actualizar_mision_form(
     descripcion: str = Form(...),
     recompensa: str = Form(...),
     tipo: TipoMision = Form(...),
+    id_npc: int = Form(...),
     session: Session = Depends(get_session)
 ):
     m = session.get(Mision, id)
@@ -77,6 +87,7 @@ def actualizar_mision_form(
     m.descripcion = descripcion
     m.recompensa = recompensa
     m.tipo = tipo
+    m.id_npc = id_npc
 
     session.add(m)
     session.commit()

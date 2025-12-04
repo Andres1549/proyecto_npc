@@ -10,9 +10,7 @@
 
     <h1 class="form-titulo">Editar Objeto: {{ item.nombre }}</h1>
 
-    <form action="/items/{{ item.id }}" method="post" enctype="multipart/form-data">
-        
-        <input type="hidden" name="_method" value="patch">
+    <form action="/items/{{ item.id }}/editar" method="post" enctype="multipart/form-data">
 
         <label>Nombre</label>
         <input type="text" name="nombre" value="{{ item.nombre }}" required>

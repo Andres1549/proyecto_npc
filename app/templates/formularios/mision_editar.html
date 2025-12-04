@@ -10,9 +10,7 @@
 
     <h1 class="form-titulo">Editar Misión: {{ mision.titulo }}</h1>
 
-    <form action="/misiones/{{ mision.id }}" method="post">
-
-        <input type="hidden" name="_method" value="patch">
+    <form action="/misiones/{{ mision.id }}/editar" method="post">
 
         <label>Título</label>
         <input type="text" name="titulo" value="{{ mision.titulo }}" required>
@@ -29,7 +27,7 @@
             <option value="{{ t }}" {% if mision.tipo.value == t %}selected{% endif %}>{{ t|capitalize }}</option>
             {% endfor %}
         </select>
-        
+
         <label>NPC Encargado</label>
         <select name="id_npc" required>
             {% for n in npcs %}
@@ -41,7 +39,6 @@
 
         <button type="submit" class="btn-form">Guardar cambios</button>
     </form>
-
 
 </div>
 
