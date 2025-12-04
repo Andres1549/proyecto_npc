@@ -1,0 +1,48 @@
+{% extends "layout/base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/detalle.css">
+{% endblock %}
+
+{% block content %}
+<div class="detalle-container">
+    
+    <div class="detalle-header">
+        <h1 class="detalle-titulo">{{ item.nombre }}</h1>
+        <p class="detalle-tipo">{{ item.tipo.value.upper() }}</p>
+    </div>
+
+    <div class="detalle-cuerpo">
+        <div class="detalle-imagen">
+            <img src="{{ item.imagen_url if item.imagen_url else 'https://placehold.co/400x300/340508/FFFFFF?text=Sin+Imagen' }}"
+                 alt="Imagen de {{ item.nombre }}"
+                 onerror="this.onerror=null; this.src='https://placehold.co/400x300/340508/FFFFFF?text=Error+al+cargar+imagen';"
+            >
+        </div>
+        
+        <div class="detalle-info">
+            <h2 class="detalle-subtitulo">Descripción</h2>
+            <p class="detalle-descripcion">{{ item.descripcion }}</p>
+
+            <div class="detalle-atributos">
+                <div class="atributo-item">
+                    <span class="etiqueta">Precio:</span>
+                    <span class="valor">{{ item.precio }} Monedas</span>
+                </div>
+                
+                <div class="atributo-item">
+                    <span class="etiqueta">Requiere Metal Artesano:</span>
+                    <span class="valor {% if item.usa_metal_artesano %}activo{% else %}inactivo{% endif %}">
+                        {{ "Sí" if item.usa_metal_artesano else "No" }}
+                    </span>
+                </div>
+            </div>
+            
+            <div class="detalle-acciones">
+                <a href="/items/{{ item.id }}/editar" class="btn-editar">Editar Item</a>
+                <a href="/items/{{ item.id }}/eliminar" class="btn-eliminar">Eliminar Item</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

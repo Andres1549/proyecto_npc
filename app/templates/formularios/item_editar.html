@@ -1,0 +1,55 @@
+{% extends "layout/base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/formularios.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="formulario-box">
+
+    <h1 class="form-titulo">Editar Objeto: {{ item.nombre }}</h1>
+
+    <form action="/items/{{ item.id }}" method="post" enctype="multipart/form-data">
+        
+        <input type="hidden" name="_method" value="patch">
+
+        <label>Nombre</label>
+        <input type="text" name="nombre" value="{{ item.nombre }}" required>
+
+        <label>Descripción</label>
+        <textarea name="descripcion" required>{{ item.descripcion }}</textarea>
+
+        <label>Precio</label>
+        <input type="number" name="precio" value="{{ item.precio }}" required min="0">
+
+        <label>Tipo</label>
+        <select name="tipo" required>
+            {% for t in ["herramienta", "material", "mejora"] %}
+            <option value="{{ t }}" {% if item.tipo.value == t %}selected{% endif %}>{{ t|capitalize }}</option>
+            {% endfor %}
+        </select>
+        
+        <label>Usa Metal Artesano</label>
+        <select name="usa_metal_artesano" required>
+            <option value="false" {% if not item.usa_metal_artesano %}selected{% endif %}>No</option>
+            <option value="true" {% if item.usa_metal_artesano %}selected{% endif %}>Sí</option>
+        </select>
+
+        <label>Imagen actual:</label>
+        {% if item.imagen_url %}
+        <img src="{{ item.imagen_url }}" class="preview-img">
+        {% else %}
+        <p>No hay imagen</p>
+        {% endif %}
+
+        <label>Nueva imagen (opcional)</label>
+        <input type="file" name="imagen" accept="image/*">
+
+        <button type="submit" class="btn-form">Guardar cambios</button>
+    </form>
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "layout/base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/detalle.css">
+{% endblock %}
+
+{% block content %}
+<div class="detalle-container">
+    
+    <div class="detalle-header">
+        <h1 class="detalle-titulo">{{ mision.titulo }}</h1>
+        <p class="detalle-tipo mision-tipo">{{ mision.tipo.value.upper() }}</p>
+    </div>
+
+    <div class="detalle-cuerpo">
+
+        <div class="detalle-info">
+            <h2 class="detalle-subtitulo">Descripción de la Tarea</h2>
+            <p class="detalle-descripcion">{{ mision.descripcion }}</p>
+
+            <h2 class="detalle-subtitulo recompensa-titulo">Recompensa</h2>
+            <p class="detalle-recompensa">{{ mision.recompensa }}</p>
+
+            <!-- Enlace al NPC que ofrece la misión -->
+            {% if mision.npc %}
+                <div class="atributo-item npc-info">
+                    <span class="etiqueta">Ofrecida por:</span>
+
+                    <a href="/npcs/{{ mision.npc.id }}" class="valor npc-link">{{ mision.npc.nombre }}</a>
+                </div>
+            {% endif %}
+
+            <div class="detalle-acciones">
+                <a href="/misiones/{{ mision.id }}/editar" class="btn-editar">Editar Misión</a>
+                <a href="/misiones/{{ mision.id }}/eliminar" class="btn-eliminar">Eliminar Misión</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
