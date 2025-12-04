@@ -21,7 +21,7 @@ def form_crear_item(request: Request, npc_id: int = Form(None) or None):
 @router.post("/crear")
 async def crear_item(
     request: Request,
-    npc_id: int = Form(...),
+    npc_id: int = Optional[int],
     nombre: str = Form(...),
     descripcion: str = Form(...),
     precio: int = Form(...),
