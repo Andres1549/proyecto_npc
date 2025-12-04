@@ -7,7 +7,7 @@ from app.db import get_session
 from app.models import Mision, TipoMision, NPC
 from app.servicios.supabase_conexion import upload_file
 
-router = APIRouter(prefix="/misiones", tags=["Misiones"])
+router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
 
 
@@ -57,7 +57,7 @@ def form_editar_mision(id: int, request: Request, session: Session = Depends(get
     m = session.get(Mision, id)
     if not m:
         raise HTTPException(status_code=404, detail="Misión no encontrada")
-    return templates.TemplateResponse("formularios/mision_edit.html", {"request": request, "mision": m})
+    return templates.TemplateResponse("formularios/mision_editar.html", {"request": request, "mision": m})
 
 
 @router.post("/{id}/editar")

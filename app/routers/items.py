@@ -8,7 +8,7 @@ from app.db import get_session
 from app.models import Item, TipoItem, NPC
 from app.servicios.supabase_conexion import upload_file
 
-router = APIRouter(prefix="/items", tags=["Items"])
+router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
 
 
@@ -73,7 +73,7 @@ def form_editar_item(id: int, request: Request, session: Session = Depends(get_s
     item = session.get(Item, id)
     if not item:
         raise HTTPException(status_code=404, detail="Item no encontrado")
-    return templates.TemplateResponse("formularios/item_edit.html", {"request": request, "item": item})
+    return templates.TemplateResponse("formularios/item_editar.html", {"request": request, "item": item})
 
 
 @router.post("/{id}/editar")

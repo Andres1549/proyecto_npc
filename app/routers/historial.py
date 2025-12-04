@@ -6,7 +6,7 @@ from sqlmodel import select, Session
 from app.db import get_session
 from app.models import NPC, Ubicacion, Item, Mision
 
-router = APIRouter(prefix="/historial", tags=["Historial"])
+router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
 
 
